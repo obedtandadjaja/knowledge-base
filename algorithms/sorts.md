@@ -1,0 +1,65 @@
+## Insertion Sort
+Idea behind this sort is basically keeping a subarray of sorted values, and inserting new values to this subarray until everything is sorted.
+
+Time complexity: O(n^2)
+Space complexity: O(1)
+
+#### Pseudocode:
+```python
+for j = 2 to A.length
+  key = A[j] # key to insert
+
+  # inserting A[j] into the sorted sequence A[1 .. j-1]
+  i = j - 1
+  
+  while i > 0 and A[i] > key # looping through the sorted subarray
+    A[i + 1] = A[i] # shifting
+    i = i -1
+
+  A[i + 1] = key
+```
+
+# Merge Sort
+A divide-and-conquer approach where we try to break down a problem to smaller problem (i.e. comparing small sorted arrays).
+
+**Divide**: Divide the n-element sequence to be sorted into 2 subsequences of n/2 elements each
+
+**Conquer**: Sort the 2 subsequences recursively using merge sort
+
+**Combine**: Merge the 2 sorted subsequences to produces the sorted answer
+
+The merge step takes O(n) time since both arrays have been sorted. 
+
+#### Pseudocode:
+```python
+mergeSort(A, p, r):
+  if p < r:
+    q = (p + r) / 2
+    mergeSort(A, p, q)
+    mergeSort(A, q + 1, r)
+    merge(A, p, q, r)
+    
+merge(A, p, q, r):
+  arr1 = A[p .. q]
+  arr2 = A[q+1 .. r]
+  
+  arr1_idx = 0
+  arr2_idx = 0
+  A_idx = 0
+  
+  while A_idx < r:
+    if arr1_idx >= q:
+      A[A_idx] = arr2[arr2_idx]
+      arr2_idx += 1
+    else if arr2_idx >= r:
+      A[A_idx] = arr1[arr1_idx]
+      arr1_idx += 1
+    else if arr1[arr1_idx] < arr2[arr2_idx]:
+      A[A_idx] = arr1[arr1_idx]
+      arr1_idx += 1
+    else:
+      A[A_idx] = arr2[arr2_idx]
+      arr2_idx += 1
+
+    A_idx += 1
+```
