@@ -28,7 +28,8 @@ A divide-and-conquer approach where we try to break down a problem to smaller pr
 
 **Combine**: Merge the 2 sorted subsequences to produces the sorted answer
 
-The merge step takes O(n) time since both arrays have been sorted. 
+Time complexity: O(n log n)
+Space complexity: O(n) - there exist an in-place merge sort but it hurts performance due to swaps
 
 #### Pseudocode:
 ```python
