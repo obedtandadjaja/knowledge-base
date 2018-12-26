@@ -3,10 +3,10 @@
 | [Insertion Sort](#insertion_sort) 	| O(n^2)                  	| O(n^2)                             	|
 | [Merge Sort](#merge_sort)     	| O(n log n)              	| O(n log n)                         	|
 | Heapsort       	| O(n log n)              	| -                                  	|
-| [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) <expected>              	|
+| [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) {expected}              	|
 | Counting sort  	| O(k + n)                	| O(k + n)                           	|
 | Radix sort     	| O(d(n + k))             	| O(d(n + k))                        	|
-| Bucket         	| O(n^2)                  	| O(n) <average-case>                	|
+| Bucket         	| O(n^2)                  	| O(n) {average-case}                	|
 
 <a name='insertion_sort'></a>
 # Insertion Sort
