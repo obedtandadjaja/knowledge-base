@@ -1,3 +1,5 @@
+Goal for algorithms here is to generate a uniform random permutation.
+
 # Table of Contents
 1. [Randomize In-place](#randomize_in_place)
 2. [Permute By Sorting](#permute_by_sorting)
@@ -16,6 +18,15 @@ randomizeInPlace(A):
 ```
 
 In its i-th iteration , it chooses the element A[i] randomly from among elements A[i] through A[n]. Subsequent to the i-th iteration, A[i] is never altered.
+
+#### Proof
+To see that the result is uniformly shuffled, observe that initially every element has `1/n` chance to land in place 0 and `n−1/n` to land in one of the remaining places 1,...,n−1. Therefore place 0 is uniformly shuffled. 
+
+In the next step, every element has probability `(1/n−1).(n−1/n)` to land in place 1, because this happens when it is not placed at 0 (probabilty `n−1/n`) and it is selected to be at place 1 (probability `1/n−1`). We may proceed inductively: an element lands in place i with probability
+
+```(n−1/n).(n−2/n−1).(n−3/n−2). ... .(n−i/n−i+1).(1/n−i)=1/n```
+
+The first i factors arise for an element not being placed anywhere among places 0,…,i−1, and the last one for it being chosen to be placed at i.
 
 <a name="permute_by_sorting"></a>
 ## Permute By Sorting
