@@ -28,6 +28,8 @@ In the next step, every element has probability `(1/n−1).(n−1/n)` to land in
 
 The first i factors arise for an element not being placed anywhere among places 0,…,i−1, and the last one for it being chosen to be placed at i.
 
+**Note**: we cannot do Random(1, n) for every iteration since it does not produce a uniform random permutation. Because you will end up with 3 . 3 . 3 = 27 possible end states, but with only 3! = 6 possible orderings. 6 does not divide 27 and so this algorithm will not produce a uniform random permutation.
+
 <a name="permute_by_sorting"></a>
 ## Permute By Sorting
 Idea is to create a priority array and have the original array to be sorted with the priority array as sort keys.
