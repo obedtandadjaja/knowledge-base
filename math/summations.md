@@ -70,3 +70,11 @@ Since we can rewrite each term as
 we get
 
 ![equation](http://latex.codecogs.com/gif.latex?%5Cbegin%7Bmatrix%7D%20%5Csum_%7Bk%3D1%7D%5E%7Bn-1%7D%20%5Cfrac%7B1%7D%7Bk%28k&plus;1%29%7D%20%3D%20%5Csum_%7Bk%3D1%7D%5E%7Bn-1%7D%5Cbigl%28%5Cbegin%7Bsmallmatrix%7D%20%5Cfrac%7B1%7D%7Bk%7D%20-%20%5Cfrac%7B1%7D%7Bk&plus;1%7D%20%5Cend%7Bsmallmatrix%7D%5Cbigr%29%20%5C%5C%20%5C%5C%20%5Cquad%5C%3B%5C%3B%3D%201%20-%20%5Cfrac%7B1%7D%7Bn%7D%20%5Cend%7Bmatrix%7D)
+
+## Products
+We can write finite product as
+
+![equation](http://latex.codecogs.com/gif.latex?%5Cbegin%7Bmatrix%7D%20%5Cprod_%7Bk%3D1%7D%5E%7Bn%7D%20a_k%20%5Cend%7Bmatrix%7D)
+
+## Splitting sums
+![equation](http://latex.codecogs.com/gif.latex?%5Cbegin%7Bmatrix%7D%20%5Csum_%7Bk%3D1%7D%5E%7Bn%7Dk%20%3D%20%5Csum_%7Bk%3D1%7D%5E%7Bn/2%7Dk%20&plus;%20%5Csum_%7Bk%3Dn/2&plus;1%7D%5E%7Bn%7D%20k%20%5Cend%7Bmatrix%7D)
