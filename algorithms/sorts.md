@@ -2,7 +2,7 @@
 |----------------	|-------------------------	|------------------------------------	|
 | [Insertion Sort](#insertion_sort) 	| O(n^2)                  	| O(n^2)                             	|
 | [Merge Sort](#merge_sort)     	| O(n log n)              	| O(n log n)                         	|
-| Heapsort       	| O(n log n)              	| -                                  	|
+| [Heapsort](#heap_sort)       	| O(n log n)              	| -                                  	|
 | [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) {expected}              	|
 | Counting sort  	| O(k + n)                	| O(k + n)                           	|
 | Radix sort     	| O(d(n + k))             	| O(d(n + k))                        	|
@@ -107,4 +107,32 @@ quickSort(A):
   higher = quickSort(higher)
   
   return lower.append(pivot).append(higher)
+```
+
+<a name='heap_sort'></a>
+# Heap Sort
+Uses a heap to sort the elements and sorts everything in-place. Idea is to:
+
+1. Build a max heap from the array
+2. Keep swapping the root (max) with the last element in the array (min)
+3. Decrement size of the heap so that the last element will not get included
+4. Maintain the heap property
+
+Time complexity: O(n log n)
+Space complexity: O(1)
+
+#### Recap Heap
+Heap is an array object that we can view as nearly complete binary tree. The tree is completely filled on all levels except possibly the lowest, which is filled from the left up to a point.
+
+Insertion: Have the new element to be at the end of the array and iterate up to the root (parent: n/2)
+Deletion: Have the last element to replace the deleted node and iterate downwards (2n or 2n+1) to maintain the heap property.
+
+#### Pseudocode:
+```python
+heapSort(A):
+  buildMaxHeap(A)
+  for i = A.length downto 2
+    swap(A[0] with A[i])
+    A.heap-size--
+    maintainMaxHeap(A)
 ```
