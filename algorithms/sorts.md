@@ -133,6 +133,6 @@ heapSort(A):
   buildMaxHeap(A)
   for i = A.length downto 2
     swap(A[0] with A[i])
-    A.heap-size--
+    A.heap-size -= 1
     maintainMaxHeap(A)
 ```
