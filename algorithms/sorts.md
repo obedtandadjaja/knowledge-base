@@ -8,7 +8,7 @@
 | [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) {expected}              	|
 | [Counting sort](#counting_sort)  	| O(k + n)                	| O(k + n)                           	|
 | [Radix sort](#radix_sort)     	| O(d(n + k))             	| O(d(n + k))                        	|
-| Bucket         	| O(n^2)                  	| O(n) {average-case}                	|
+| [Bucket sort](#bucket_sort)         	| O(n^2)                  	| O(n) {average-case}                	|
 
 <a name='insertion_sort'></a>
 # Insertion Sort
@@ -191,7 +191,7 @@ Assumes that each of the `n` input elements is an integer in the range 0 to `k`,
 Good resource: https://www.youtube.com/watch?v=7zuGmKfUt7 
 
 Time complexity: O(k + n)
-Space complexity: O(k + n)
+Space complexity: O(k + 2n)
 
 #### Pseudocode:
 ```python
@@ -224,11 +224,34 @@ Idea behind radix sort is to sort by digits starting from the least significant 
 Radix sort is very good at sorting dates by sorting each date in 3 categories: day, month, year. 
 
 Time complexity: O(d(k + n))
-Space complexity: O(d(k + n))
+Space complexity: O(1)
 
 #### Pseudocode:
 ```python
 radixSort(A, d):
   for i = d-1 down to 0:
     use a stable sort to sort array A on digit i
+```
+
+<a name='bucket_sort'></a>
+# Bucket Sort
+Bucket sort divides the inputs into "buckets". To produce the output, we simply sort the numbers in each bucket and then go through the buckets in order, listing the elements in each.
+
+Time complexity: O(n^2) worst case, O(n) best case
+
+#### Pseudocode:
+```python
+bucketSort(A):
+  n = A.length
+  B = [0..n-1] be a new array
+  
+  # categorize into buckets
+  for i = 0 to n-1:
+    insert A[i] into list B[floor(A[i])]
+  
+  # sort the buckets
+  for i = 0 to n-1:
+    sort list B[i] with insertion sort
+  
+  concatenate the lists B[0], B[1], ..., B[n-1] together in order
 ```
