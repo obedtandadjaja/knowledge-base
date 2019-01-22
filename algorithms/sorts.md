@@ -7,7 +7,7 @@
 | [Heapsort](#heap_sort)       	| O(n log n)              	| -                                  	|
 | [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) {expected}              	|
 | [Counting sort](#counting_sort)  	| O(k + n)                	| O(k + n)                           	|
-| Radix sort     	| O(d(n + k))             	| O(d(n + k))                        	|
+| [Radix sort](#radix_sort)     	| O(d(n + k))             	| O(d(n + k))                        	|
 | Bucket         	| O(n^2)                  	| O(n) {average-case}                	|
 
 <a name='insertion_sort'></a>
@@ -215,4 +215,20 @@ countingSort(A, k):
     C[A[i]] -= 1
   
   return B
+```
+
+<a name='radix_sort'></a>
+# Radix Sort
+Idea behind radix sort is to sort by digits starting from the least significant digit to the most significant. 
+
+Radix sort is very good at sorting dates by sorting each date in 3 categories: day, month, year. 
+
+Time complexity: O(d(k + n))
+Space complexity: O(d(k + n))
+
+#### Pseudocode:
+```python
+radixSort(A, d):
+  for i = d-1 down to 0:
+    use a stable sort to sort array A on digit i
 ```
