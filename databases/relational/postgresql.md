@@ -48,13 +48,13 @@ Inside the data file (heap table, index table, free space map, and visibility ma
 
 A page within a table contains 3 kinds of data:
 
-1. **head tuple** - 
+1. **heap tuple** - record data. They are stacked in order from the bottom of the page.
 2. **line pointer** - 4 byte long and holds . apointer to each head tuple. It is also called an **item pointer**.
 3. **header data** - allocated in the beginning of the page. It is 24 byte long and contains general information about the page. The major variables of the structure are:
-  * pd_lsn - this variable stores the LSN of XLOG record written by the last change of this page. It is an 8-byte unsigned integer, related to the WAL (Write-Ahead Logging) mechanism.
-  * pd_checksum - This variable stores the checksum value of this page.
-  * pd_lower, pd_upper - pd_lower points to the end of line pointers, and pd_upper to the beginning of the newest heap tuple.
-  * pd_special - for indexes. In the page within tables, it points to the end of the page.
+    * pd_lsn - this variable stores the LSN of XLOG record written by the last change of this page. It is an 8-byte unsigned integer, related to the WAL (Write-Ahead Logging) mechanism.
+    * pd_checksum - This variable stores the checksum value of this page.
+    * pd_lower, pd_upper - pd_lower points to the end of line pointers, and pd_upper to the beginning of the newest heap tuple.
+    * pd_special - for indexes. In the page within tables, it points to the end of the page.
   
 An empty space between the end of line pointers and the beginning of the newest tuple is referred to as **free space** or **hole**.
 
