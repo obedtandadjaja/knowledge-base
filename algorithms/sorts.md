@@ -6,7 +6,7 @@
 | [Merge Sort](#merge_sort)     	| O(n log n)              	| O(n log n)                         	|
 | [Heapsort](#heap_sort)       	| O(n log n)              	| -                                  	|
 | [Quick Sort](#quick_sort)      	| O(n^2)                  	| O(n log n) {expected}              	|
-| Counting sort  	| O(k + n)                	| O(k + n)                           	|
+| [Counting sort](#counting_sort)  	| O(k + n)                	| O(k + n)                           	|
 | Radix sort     	| O(d(n + k))             	| O(d(n + k))                        	|
 | Bucket         	| O(n^2)                  	| O(n) {average-case}                	|
 
@@ -183,4 +183,36 @@ heapSort(A):
     swap(A[0] with A[i])
     A.heap-size -= 1
     maintainMaxHeap(A)
+```
+<a name='counting_sort'></a>
+# Counting Sort
+Assumes that each of the `n` input elements is an integer in the range 0 to `k`, for some integer `k`. Counting sort uses the actual values of the elements to index into an array. And use running sums to determine the index of where the value needs to go.
+
+Good resource: https://www.youtube.com/watch?v=7zuGmKfUt7 
+
+Time complexity: O(k + n)
+Space complexity: O(k + n)
+
+#### Pseudocode:
+```python
+countingSort(A, k):
+  B = [0..A.length] a new array
+  C = [0..k] a new array
+  
+  # count how many counts per index
+  for i = 1 to A.length - 1:
+    C[A[i]] += 1
+  
+  # calculate running sum
+  for i = 1 to k
+    C[i] = C[i] + C[i-1]
+  
+  # the running sum will determine the position of where the value need to go
+  # decrement the count when finished so that the next iteration of the same value
+  # will go to a lower index
+  for i = A.length - 1 downto 0:
+    B[C[A[i]]] = A[i]
+    C[A[i]] -= 1
+  
+  return B
 ```
