@@ -81,6 +81,8 @@ merge(A, p, q, r):
 # Quick Sort
 Idea behind this sort is basically choosing a pivot value and categorizing values into 2 sections, those that are higher and lower than the pivot value.
 
+Quicksort is often the best practical choice for sorting becuase it is remarkably efficient on the average. It also has the benefit of sorting in place and it works well even in virtual-memory environments.
+
 **Divide**: Choose a pivot value.
 
 **Conquer**: Categorize the remaining values to array of higher or lower than the pivot value.
@@ -107,6 +109,34 @@ quickSort(A):
   higher = quickSort(higher)
   
   return lower.append(pivot).append(higher)
+```
+
+In-place algorithm:
+
+```python
+quickSort(A, start, end):
+  if start < end:
+    pivot_index = partition(A, start, end)
+    quickSort(A, start, pivot_index - 1)
+    quickSort(A, pivot_index + 1, end)
+
+# 1. set the pivot to be the last element in the subarray
+# 2. set a partition index to separate the "lower" and "higher" arrays
+# 3. loop through from start to end-2, and have the current index be i
+# 4. if the current value is bigger than pivot then increment the parition index and swap
+# 5. lastly, swap the pivot with the partition index so that the pivot is in the middle
+partition(A, start, end):
+  pivot = A[end-1]
+  partition_index = start - 1
+  
+  for i = start to end-2: # we choose end-2 since the last index is the pivot
+    if A[i] <= pivot:
+      partition_index += 1
+      swap(A, partition_index, i)
+  
+  swap(A, parition_index + 1, end - 1)
+  
+  return partition_index + 1
 ```
 
 <a name='heap_sort'></a>
