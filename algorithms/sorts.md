@@ -81,6 +81,8 @@ merge(A, p, q, r):
 # Quick Sort
 Idea behind this sort is basically choosing a pivot value and categorizing values into 2 sections, those that are higher and lower than the pivot value.
 
+The running time of quicksort depends on whether the partitioning is balanced, which in turn depends on which elements are used for partitioning. 
+
 Quicksort is often the best practical choice for sorting becuase it is remarkably efficient on the average. It also has the benefit of sorting in place and it works well even in virtual-memory environments.
 
 **Divide**: Choose a pivot value.
@@ -111,7 +113,7 @@ quickSort(A):
   return lower.append(pivot).append(higher)
 ```
 
-In-place algorithm:
+In-place algorithm with fixed sampling:
 
 ```python
 quickSort(A, start, end):
@@ -137,6 +139,20 @@ partition(A, start, end):
   swap(A, parition_index + 1, end - 1)
   
   return partition_index + 1
+```
+
+In-place algorithm with random sampling (in order to obtain good performance over all inputs):
+```python
+randomizedQuickSort(A, start, end):
+  if start < end:
+    pivot_index = randomizedPartition(A, start, end)
+    randomizedQuickSort(A, start, pivot_index - 1)
+    randomizedQuickSort(A, pivot_index + 1, end)
+
+randomizedPartition(A, start, end):
+  pivot_index = random(start, end)
+  swap(A, pivot_index, end - 1)
+  return partition(A, start, end) # see above for partition logic
 ```
 
 <a name='heap_sort'></a>
