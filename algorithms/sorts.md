@@ -1,3 +1,5 @@
+**There are 2 types of sorting algorithms: comparison sorts and otherwise. Comparison sorts share a property: the sorted order they determine is based only on comparisons between the input elements. Comparison sorts run on O(n log n) at best, such as merge, heap and quick sorts. However, other sorts like counting, radix, and bucket sorts can run in linear time; they use operations other than comparisons to determine the sorted order**
+
 | Algorithm      	| Worst-case running time 	| Average-case/expected running time 	|
 |----------------	|-------------------------	|------------------------------------	|
 | [Insertion Sort](#insertion_sort) 	| O(n^2)                  	| O(n^2)                             	|
