@@ -42,7 +42,23 @@ If you create a new dtabase under the tablespace, its directory is created under
 Tablespace allow database administrators to define locations in the file system where the files representing database objects can be stored. This is useful in at least 2 ways: First, if the partition runs out of sapce and cannot be extended, a tablespace can be created on a different partition and used until the system can be configured. Second, tablespaces allow an administrator to use knowledge of the usage pattern of database objects to optimize performance. For example, an index which is very heavily used can be placed on a very fast, highly available disk, such as an expensive solid state device.
 
 ### Internal Layout of a Heap Table File
+Inside the data file (heap table, index table, free space map, and visibility map), it is divided into **pages** of fixed length. The default is 8192 byte (8 KB). Those pages within each file are numbered sequentially from 0, and such numbers are called **block numbers**. If the file has been filled up, a new empty page is added to the end of the file to increase the file size.
 
+![database_cluster](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/fig-1-04.png?raw=true)
+
+A page within a table contains 3 kinds of data:
+
+1. **head tuple** - 
+2. **line pointer** - 4 byte long and holds . apointer to each head tuple. It is also called an **item pointer**.
+3. **header data** - allocated in the beginning of the page. It is 24 byte long and contains general information about the page. The major variables of the structure are:
+  * pd_lsn - this variable stores the LSN of XLOG record written by the last change of this page. It is an 8-byte unsigned integer, related to the WAL (Write-Ahead Logging) mechanism.
+  * pd_checksum - This variable stores the checksum value of this page.
+  * pd_lower, pd_upper - pd_lower points to the end of line pointers, and pd_upper to the beginning of the newest heap tuple.
+  * pd_special - for indexes. In the page within tables, it points to the end of the page.
+  
+An empty space between the end of line pointers and the beginning of the newest tuple is referred to as **free space** or **hole**.
+
+To identify a tuple within the table, tuple identifier (TID) is internally used. A TID comprises a pair of values: the block number of the page and the offset number of the line pointer that points to the tuple. 
 
 ## Multiversion concurrency control (MVCC)
 PostgreSQL manages concurrency through MVCC which gives each transaction a snapshot of the database, allowing changes to be made without being visible to other transactions until the changes are committed. This largely eliminates the need for read locks, and ensures the database maintains the ACID principles in an efficient manner.
