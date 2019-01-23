@@ -7,11 +7,11 @@ Insert operation on a queue is called `ENQUEUE` and the delete operation is call
 We can use a simple array with two variables `head` and `tail` to implement a queue.
 
 ```python
-enqueue(Q, x):
+enqueue(Q, x): # O(1)
   Q.tail = (Q.tail + 1) % Q.length
   Q[Q.tail] = x
 
-dequeue(Q):
+dequeue(Q): # O(1)
   x = Q[Q.head]
   Q.head = (Q.head + 1) % Q.length
   return x
