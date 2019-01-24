@@ -181,7 +181,7 @@ heapSort(A):
   buildMaxHeap(A)
   for i = A.length downto 2
     swap(A[0] with A[i])
-    A.heap-size -= 1
+    A.heap_size -= 1
     maintainMaxHeap(A)
 ```
 <a name='counting_sort'></a>
