@@ -11,7 +11,7 @@ A rooted tree has one initial node which branches out to other nodes, forming a 
 ## Binary Tree
 Tree node only has two children.
 
-Binary search tree follows a policy where the left node must be smaller than the parent node's and the right node's value.
+Binary search tree follows a policy where the left node must be smaller than the parent node's and the right node's value. Implementation: https://github.com/obedtandadjaja/interview_misc/blob/master/interview201710/DataStructures/BinaryTree.java
 
 ![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/1_fvAa2lIvPcl3pEF0EwjT_g.png?raw=true)
 
