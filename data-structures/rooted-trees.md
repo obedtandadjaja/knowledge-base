@@ -13,7 +13,7 @@ Tree node only has two children.
 
 Binary search tree follows a policy where the left node must be smaller than the parent node's and the right node's value.
 
-
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/1_fvAa2lIvPcl3pEF0EwjT_g.png?raw=true)
 
 ## Left-child Right-sibling Tree
 Each node has 3 pointers: parent, left, right.
