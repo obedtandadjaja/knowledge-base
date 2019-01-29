@@ -63,3 +63,58 @@ h'(k) = value of previous hash
 ```
 
 This method works much better than linear probing, but it suffers from a problem called **secondary clustering**. If two keys have the same initial probe position, then their probe sequences are the same.
+
+## What makes a good hash function?
+Goal: each key is equally likely to hash to any of the slots, independently of where any other key has hashed to.
+
+However, this is hard to do since we rarely know the probability distribution of the keys. 
+
+### The Division Method
+Map a key `k` into one of `m` slots by taking the remainder of `k` divided by `m`.
+
+```python
+h(k) = k mod m
+```
+
+When using the division method, we usually avoid certain values of `m`. For ecample `m` should not be a power of 2, since if `m = 2^p`, then `h(k)` is just the `p` lowest-order bits of `k`.
+
+A prime not too close to an exact power of 2 is often a good choice for `m`.
+
+### The Multiplication Method
+```python
+h(k) = floor(m(kA mod 1))
+
+where A is a constant in the range of 0 < A < 1
+
+"kA mod 1" means the fractional part of kA, that is, kA - floor(kA)
+```
+
+An advantage of the multiplication method is that the value of `m` is not critical. We typically choose it to be a power of 2 (`m = 2^p` for some integer `p`), since we can easily implement the function on most computers as follows.
+
+Although the method works with any value of the constant `A`, it works better with some values than other. Knuth suggests that
+
+```
+A ~= (sqrt(5)-1)/2 = 0.6180339887
+```
+
+### Universal Hashing
+Choose a hash function randomly in a way that is independent of the keys that are actually going to be stored. Universal hashing can yield provably good performance on average, no matter which keys are chosen.
+
+At the beginning of execution we select the hash function at random from a carefully designed class of functions. As in the case of quicksort, randomization guarantees that no single input will always evoke worst-case behavior. Because we randomly select the hash function, the algorithm can behave differently on each execution, even for the same input, guaranteeing good average-case performance for any input.
+
+Universal hashing algorithms do not use randomness when calculating a hash for a key. Random numbers are only used during the initialization of the hash table to choose a hash function from a family of hash functions. This prevents an adversary with access to the details of the hash function from devising a worst case set of keys.
+
+In other words, during the lifetime of the hash table, the bucket for a given key is consistent. However, a different instance (such as next time the program runs) may place that same key in a different bucket.
+
+The collection of hash functions are said to be universal if for each pair of distinct keys `k` and `l`, the number of hash functions for which `h(k) = h(l)` is at most `|H|/m` where `H` is the finite collection of hash functions.
+
+A typical hash function look like:
+
+```python
+h_ab(k) = ((ak + b) mod p) mod m
+
+where a is a constant from 0 to p-1
+where b is a constant from 1 to p-1
+where p is a large prime number
+where m is the number of slots in the hash table
+```
