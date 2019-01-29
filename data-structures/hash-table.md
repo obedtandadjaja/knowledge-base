@@ -57,12 +57,25 @@ This method suffers from **primary clustering** where long runs of occupied slot
 When we come to a collusion, run the following formula to get the next hash function:
 
 ```python
-h(k, attempts_count) = (h'(k) + constant_1 * attempts_count + constant_2 * attempts_count)
+h(k, i) = (h'(k) + constant_1 * i + constant_2 * i)
 
 h'(k) = value of previous hash
+where k = key
+where i = number of attempts
 ```
 
 This method works much better than linear probing, but it suffers from a problem called **secondary clustering**. If two keys have the same initial probe position, then their probe sequences are the same.
+
+#### Double Hashing
+```python
+h(k, i) = (h_1(k) + i*h_2(k)) mod m
+
+where k = key
+where i = number of attempts
+where h_1 and h_2 are auxillary hash functions
+```
+
+Successive probe positions are offset from previous positions by the amount `h_2(k) mod m`. Hence, unlike the case of linear or quadratic probing, the probe sequence here depends in 2 ways upon the key `k`, since the initial probe position, the offset, or both, may vary.
 
 ## What makes a good hash function?
 Goal: each key is equally likely to hash to any of the slots, independently of where any other key has hashed to.
@@ -118,3 +131,16 @@ where b is a constant from 1 to p-1
 where p is a large prime number
 where m is the number of slots in the hash table
 ```
+
+## Perfect Hashing
+Perfect hashing is useful when the set of keys are **static**L once the keys are stored in the table, the set of keys never changes. 
+
+We call a hashing technique **perfect hashing** if O(1) memory accesses are required to perform a search in the worst case.
+
+To create a perfect hashing scheme, we use 2 levels of hashing, with universal hashing at each level.
+
+The first level is essentially the same as for hashing with chaining: we hash `n` keys into `m` slots using a hash function `h` carefully selected from a family of universal functions.
+
+Instead of making a linked list of the keys hashing to slot `j`, we use a small **secondary hash table** with an associated hash function `h_j`. By choosing the hash functions `h_j` carefully, we can guarantee that there are no collisions at the secondary level.
+
+In order to guarantee there are no collisions at the secondary level, we will need to let the size of the secondary hash table be the square of the number of keys hashing to slot `j`. 
