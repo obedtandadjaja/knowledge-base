@@ -72,3 +72,31 @@ PostgreSQL offers 3 levels of transaction isolation:
 Because PostgreSQL is immune to dirty reads, requesing a Read Uncommitted transaction isolation level provides read committed instead.
 
 PostgreSQL supports full serializability via serializable snapshot isolation (SSI) technique.
+
+### How MVC works
+Every transaction in postgres gets a transaction ID called `XID`. This includes single one statement transactions such as an insert, update, or delete, as well as explicitly wrapping a group of statements together via `BEGIN - COMMIT`.
+
+Wehn a transaction starts, Postgres `increments` an `XID` and assigns it to the current transaction. Postgres stores this transaction information on every row in the system, which is used to determine whether a row is visible to the transaction or not.
+
+When you insert a row, Postgres will store the `XID` of the row and call it `xmin`. Every row that has been committed and has an `xmin` that is less than the current transaction's `XID` is visible to the transaction. Until the transaction is committed, that row will not be visible to other transactions. Once it commits and other transactions get created, they will be able to view the new row because they satisfy the `xmin < XID` condition - and the transaction that created the row has completed.
+
+A similar mechanis, occurs for DELETE and UPDATE, only in these cases Postgres stores an `xmax` value on each row in order to determine visibility.
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/457-imported-1443570195-457-imported-1443554663-34-original.jpg?raw=true)
+
+What about two transactions updating the same row at the same time? Postgres supports 2 models that allow you to control how this situation should be handled.
+
+The default: `READ COMMITTED` reads the row after the initial transaction has been completed and then executes the statement. It starts over if the row changed while it was waiting. If you issue an update with a where clause, the where clause will rerun after the initial transaction commits.
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/457-imported-1443570195-457-imported-1443554664-35-original.jpg?raw=true)
+
+`SERIALIZABLE` on the other hand, throws an error when the row it is modifying has been modified by another transaction. It's up to the app to handle that error and try again.
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/457-imported-1443570195-457-imported-1443554664-36-original.jpg?raw=true)
+
+### Disadvantages of MVCC
+Because different transactions will have visibility to a different set of rows, Postgres needs to maintain potentially obsolete records. This is why an UPDATE actually creates a new row and why DELETE doesn't really remove the row: it merely marks it as deleted and sets the XID values appropriately. As transactions complete, there will be rows in the database that cannot possibly be visible to any future transactions.
+
+Another problem that comes from MVCC is that transaction IDs can only ever grow so much - they are 32 bits and can only support aroound 4 billion transactions. Qhen the XID reaches its max, it will wraparound and start back at zero. Suddenly all rows appear to be in future transactions, and no new transactions would have visibility into those rows.
+
+Both dead rows and transaction XID wraparound problem are solved with `VACUUM`. This should be routine maintenance, and Postgres comes with an auto_vacuum daemon that will run at a configurable frequency. It's important to keep an eye on this because different deployments will have different needs when it comes to vacuum frequency.
