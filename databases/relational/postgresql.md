@@ -24,7 +24,7 @@ A database cluster basically is one directory referred to as **base directory**.
 A database is a subdirectory under the base subdirectory; and the database directory names are identical to the respective OIDs.
 
 ### Layout of Files Associated with Tables and Indexes
-Each table or index whose size is less than 1GB is a single file stored under the dtabase directory it belongs to. These files are managed by the variable, `relfilenode`. The relfilenode values of tables and indexes typically math its respective OIDs.
+Each table or index whose size is less than 1GB is a single file stored under the dtabase directory it belongs to. These files are managed by the variable, `relfilenode`. The relfilenode values of tables and indexes typically match its respective OIDs.
 
 The `relfilenode` values are changed by some commands (TRUNCATE, REINDEX, CLUSTER).
 
@@ -59,6 +59,31 @@ A page within a table contains 3 kinds of data:
 An empty space between the end of line pointers and the beginning of the newest tuple is referred to as **free space** or **hole**.
 
 To identify a tuple within the table, tuple identifier (TID) is internally used. A TID comprises a pair of values: the block number of the page and the offset number of the line pointer that points to the tuple. 
+
+### Writing Heap Tuples
+The pd_lower of the page points to the first line pointer, and both the line pointer and the pd_upper point to the first heap tuple. When the second tuple is inserted, it is placed after the first one. The second line pointer is pushed onto the first one, and it points to the second tuple. The pd_lower changes to point to the second line pointer, and the pd_upper to the second heap tuple.
+
+Other header data within the page (e.g. pd_lsn, pg_checksum, pg_flag) are also rewritten to appropriate values.
+
+### Reading Heap Tuples
+There are two typical access methods: sequential scan and B-tree index scan
+
+![Heap Tuples](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/fig-1-06.png?raw=true)
+
+#### Sequential Scan
+All tuples in all pages are sequentially read by scanning all line pointers in each page.
+
+#### B-tree Index Scan
+An index file contains index tuples, each of which is composed of an index key and a TID pointing to the target tuple. If the index tuple with the key that you are looking for has been found, PostgreSQL reads the desired heap tuple using the TID value.
+
+### Indexes
+They are auxiliary structures: each index can be deleted and recreated back from the information in the table. 
+
+Not only do they speed up data access, they also serve to enforce some integrity constraints (like uniqueness).
+
+Despite difference between types of indexes, each of them associates a key with table rows that contain this key. Each row is identified by TID (tuple id), which consists of the number of block in the file and the position of the row inside the block. And so using indexes we can know the TID we are looking for without scanning the entire table.
+
+Important to understand that an index speeds up data access at a certain maintenance cost. For each operation on indexed data, indexes for that table need to be updated too in the same transaction. 
 
 ## Multiversion concurrency control (MVCC)
 PostgreSQL manages concurrency through MVCC which gives each transaction a snapshot of the database, allowing changes to be made without being visible to other transactions until the changes are committed. This largely eliminates the need for read locks, and ensures the database maintains the ACID principles in an efficient manner.
