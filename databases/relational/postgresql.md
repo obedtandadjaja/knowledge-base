@@ -85,6 +85,48 @@ Despite difference between types of indexes, each of them associates a key with 
 
 Important to understand that an index speeds up data access at a certain maintenance cost. For each operation on indexed data, indexes for that table need to be updated too in the same transaction. 
 
+## Process Architecture
+PostgreSQL is a client/server type relational database system with the multi-process architecture and runs on a single host.
+
+A collection of multiple processes cooperatively managing one database cluster is usually referred to as a "PostgreSQL server":
+
+- Postgres server process - parent of all processes related to database cluster management
+- Backend process - handles all queries and statements issued by clients
+- Background process - perform processes like VACUUM and CHECKPOINT for database maintenance
+- Replication associated process - perform streaming replication
+- Background worker process - can perform any background processing implemented by users
+
+### Postgres server process
+On start up, it allocates a shared memory area in memory, starts various background processes, starts replication processes and background processes if necessary, as well as waits for connection requests from clients. Whenever it receives a connection request from a client, it starts a backend process.
+
+A postgres server process listens to one network port (default: 5432). Although more than one PostgreSQL server can be run on the same host, each server should be set to listen to different ports.
+
+### Backend process
+Handles all queries issued by one connected client. Communicates with the client via a single TCP connection and terminates when the client gets disconnected.
+
+Only allowed to operate on one database so client must specify which database to connect.
+
+PostgreSQL allows multiple clients to connect simultaneously; admin can reduce the number of connections from config parameter `max_connections` (default: 100).
+
+## Memory Architecture
+Can be classified into 2 broad categories: local memory area ane shared memory area.
+
+### Local memory area
+Each backend process allocates a local memory area for query processing; each area is divided into several sub-areas - whose sizes are either fixed or variable.
+
+Sub-areas:
+- work_mem - executor uses this area for sorting tuples by ORDER BY and DISTINCT operations, and for joining tables by merge-join and hash-join operations
+- maintenance_work_mem - maintenance operations
+- temp_buffers - for storing temporary tables
+
+### Shared memory area
+Allocated by a PostgreSQL server on start up. Divided into several fix-sized sub-areas.
+
+Sub-areas:
+- shared buffer pool - loads pages within tables and indexes from a persistent storage to here, and operates them directly
+- WAL buffer - ensure that no data has been lost by server failures. Buffering area of the WAL data before writing to a persistent storage
+- commit log - keeps the states of all transactions for concurrency control mechanism
+
 ## Multiversion concurrency control (MVCC)
 PostgreSQL manages concurrency through MVCC which gives each transaction a snapshot of the database, allowing changes to be made without being visible to other transactions until the changes are committed. This largely eliminates the need for read locks, and ensures the database maintains the ACID principles in an efficient manner.
 
