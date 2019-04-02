@@ -5,10 +5,10 @@ The typical paradigm for monotonous increase stack:
 
 ```cpp
 for(int i = 0; i < A.size(); i++){
-  while(!in_stk.empty() && in_stk.top() > A[i]){
-    in_stk.pop();
+  while(!stack.empty() && stack.peek() > A[i]){
+    stack.pop();
   }
-  in_stk.push(A[i]);
+  stack.push(A[i]);
 }
 ```
 
@@ -38,11 +38,11 @@ We do some record when the index is pushed into the stack.
 // previous_less[i] = -1 means there is no previous less element of A[i].
 vector<int> previous_less(A.size(), -1);
 for(int i = 0; i < A.size(); i++){
-  while(!in_stk.empty() && A[in_stk.top()] > A[i]){
-    in_stk.pop();
+  while(!stack.empty() && A[stack.peek()] > A[i]){
+    stack.pop();
   }
-  previous_less[i] = in_stk.empty()? -1: in_stk.top();
-  in_stk.push(i);
+  previous_less[i] = stack.empty()? -1: stack.peek();
+  stack.push(i);
 }
 ```
 
@@ -70,10 +70,11 @@ We do some record when the index is poped out from the stack.
 // next_less[i] = -1 means there is no next less element of A[i].
 vector<int> previous_less(A.size(), -1);
 for(int i = 0; i < A.size(); i++){
-  while(!in_stk.empty() && A[in_stk.top()] > A[i]){
-    auto x = in_stk.top(); in_stk.pop();
+  while(!stack.empty() && A[stack.peek()] > A[i]){
+    int x = stack.peek();
+    stack.pop();
     next_less[x] = i;
   }
-  in_stk.push(i);
+  stack.push(i);
 }
 ```
