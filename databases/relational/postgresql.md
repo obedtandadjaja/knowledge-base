@@ -148,6 +148,22 @@ Planner receives a query tree and generates a (query) plan tree that can be proc
 
 As in other RDBMS, the EXPLAIN command displays the plan tree itself.
 
+## Cost Estimation in Single-Table Query
+PostgreSQL's query optimization is based on cost. Costs are dimensionless values, and these are not absolute performance indicators but are indicators to compare the relative performance of operations.
+
+Costs are estimated by the functions defined in costsize.c. All of operations executed by the executor have the corresponding cost functions.
+
+There are 3 kinds of costs: `start-up`, `run`, and `total`.
+
+- Start-up: cost expended before the first tuple is fetched (cost to read index pages to access the first tuple in the target table)
+- Run: cost to fetch all tuples
+- Total: sum of costs of start-ups and run
+
+Explain command shows both start-up and run costs in each operation.
+
+## Sort
+In sorting operation (order by), if all tuples to be sorted can be stored in `work_mem`, then `quicksort` algorithm is used. Otherwise, a temporary file is created and the `file merge sort` algorithm is used.
+
 ## Multiversion concurrency control (MVCC)
 PostgreSQL manages concurrency through MVCC which gives each transaction a snapshot of the database, allowing changes to be made without being visible to other transactions until the changes are committed. This largely eliminates the need for read locks, and ensures the database maintains the ACID principles in an efficient manner.
 
