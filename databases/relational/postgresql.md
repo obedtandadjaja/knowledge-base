@@ -204,3 +204,42 @@ Because different transactions will have visibility to a different set of rows, 
 Another problem that comes from MVCC is that transaction IDs can only ever grow so much - they are 32 bits and can only support aroound 4 billion transactions. Qhen the XID reaches its max, it will wraparound and start back at zero. Suddenly all rows appear to be in future transactions, and no new transactions would have visibility into those rows.
 
 Both dead rows and transaction XID wraparound problem are solved with `VACUUM`. This should be routine maintenance, and Postgres comes with an auto_vacuum daemon that will run at a configurable frequency. It's important to keep an eye on this because different deployments will have different needs when it comes to vacuum frequency.
+
+## Buffer Manager
+Manages data transfers between shared memory and persistent storage.
+
+It comprises a buffer table, descriptions, and pool. Buffer pool: stores data file pages, such as tables and indexes as well as freespace maps and visibility maps. The buffer pool an array and each slot stores one page of a data file.
+
+### Buffer Tag
+Each page of all data files can be assigned a unique buffer tag. When the buffer manager receives a request, PostgreSQL uses the buffer_tag of the desired page.
+
+### How a Backend Process Reads Pages
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/fig-8-02.png?raw=true)
+
+### Page Replacement Algorithm
+When all buffer pool slots are occupied but the requested page is not stored, the buffer manager must select one page in the buffer pool that will be replaced by the requested page. 
+
+Since version 8.1, PostgreSQL has used `clock sweep` because it is simpler and more efficient than the `LRU` algorithm used in previous versions.
+
+### Flushing Dirty Pages
+Dirty pages should eventually be flushed to storage; however, the buffer manager requires help to perform this task. 2 background processes, `checkpointer` and `background writer` are responsible.
+
+## Write Ahead Logging - AWL
+A transaction log is an essential part of database so that data will not be lost when a system failure occurs. It is a history log of all changes and actions done to the database. The log should include sufficient information about each transaction so that database can recover by replaying the changes.
+
+### Insertion Operations and Database Recovery
+PostgreSQL writes all modifications as history data into a persistent storage, to prepare for failures known as `XLOG records` or `WAL data`.
+
+XLOG records are written to in-memory WAL buffer by change operations such as insertion, deletion, and commit action. They are immediately written to a WAL segment file on the storage when a transaction commits/aborts. `LSN` (Log Sequence Number) of XLOG record represents the location where its record is written on the transaction log. LSN of record is used as the unique id of XLOG record.
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/fig-9-02.png?raw=true)
+
+On failure, PostgreSQL will automatically enter into recovery-mode by restarting. It will sequentially read and replay XLOG records within the appropriate WAL segment files from the RESO point.
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/fig-9-03.png?raw=true)
+
+### Full-Page Writes
+Suppose that the table page data on the storage is corrupted. As XLOG records cannot be replayed on the corrupted page, we need an additional feature.
+
+PostgreSQL supports a feature referred to as full-page writes to deal with such failures. If it is enabled, PostgreSQL writes a pair of the header-data and the entire page as XLOG record during the first change of each page after every checkpoint; default is enabled. In PostgreSQL, such a XLOG record containing the entire page is referred to as backup block (or full-page image).
