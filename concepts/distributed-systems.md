@@ -28,3 +28,16 @@ Availability: The time a system remains operational to perform its required func
 
 ### Serviceability / Manageability
 Easiness to operate and maintain the system. Only need to fix one part of the system at a time instead of a monolith whole
+
+## Key Challenges
+
+### Complexity
+Difficult to deploy, maintain, and troubleshoot/debug than their centralized counterparts. However, this complexity is heavily mitigated by new distributed systems software and cluster management systems like Kubernetes.
+
+### Higher initial cost
+The deployment cost of a distribution is higher than a single system. Increased processing overhead due to additional computation and exchange of information adds up cost.
+
+### Security Concerns
+
+- Network needs to be secured between the microservices
+- Sharing risks (should microservices doubt each other?)
