@@ -38,6 +38,10 @@
 
 ## Which one to use?
 
+Does the system have a lot of interconnected components (relations)? If yes, then use SQL
+
+Does the system care about localization and is schemaless? If yes, then use NoSQL
+
 ### SQL
 - Ensure ACID compliance.
   - Reduce anomalies.
