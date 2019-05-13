@@ -37,6 +37,7 @@
   - Most sacrifice ACID compliance for performance and scalability.
 
 ## Which one to use?
+
 ### SQL
 - Ensure ACID compliance.
   - Reduce anomalies.
