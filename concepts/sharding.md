@@ -1,5 +1,15 @@
 # Sharding / Data Partitioning
 
+Sharding is important for redundancy, availability, durability, and horizontal scalability.
+
+**Redundancy + Availability**: Multiple shards host the same data and so multiple shards can serve multiple requests for the same data
+
+**Durability**: When one shard is corrupted then there is more copy in other shards
+
+**Horizontal Scalability**: As the amount of data grows, we just need more shards to handle the load instead of keep increasing storage size of a single machine
+
+![picture](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/1_QDRlAtQaXkniqJboucKOVg.png?raw=true)
+
 ## Partitioning methods
 
 ### Horizontal partitioning
