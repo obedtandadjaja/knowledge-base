@@ -48,3 +48,28 @@ Answer the following questions to help you decide:
 ## System Design and Algorithm
 
 Come up with a solution in your brain and **DRAW OUT** the service and architecture in diagrams. Explain in detail what each service does
+
+Things to consider:
+- Concurrency
+- Hardware / Connection failure handling
+- Security
+- Where to put cache?
+- Where to put load balancers?
+
+## Cache
+
+Type:
+- Global cache?
+- Distributed cache?
+
+Eviction Policy:
+- LRU?
+- FIFO?
+- MRU? Most Recently Used
+- LFU? Least Frequently Used
+- RR? Random Replacement
+
+Invalidation:
+- Write-through?
+- Write-back?
+- Write-around?
