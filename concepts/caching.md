@@ -82,6 +82,14 @@
 ## Preload cache
 On a fresh startup of a cluster (e.g. after a new deployment in a blue-green deployment scheme/crash/network failure/etc.) the system may be slow to fill the cache. So you may have a batch job run on startup to fetch some pieces of data from the database and put them in the cache.
 
+## Cache eviction policies
+- FIFO: first in first out
+- LIFE: last in first out
+- LRU: least recently used
+- MRU: most recently used
+- LFU: least frequently used
+- RR: random replacement
+
 ## Things to be aware of
 - Poor eviction policy: leads to slower response time since we are making that extra call to the cache before getting the data from the database
 - Thrashing: Replacing values in the cache without ever using it
