@@ -246,4 +246,68 @@ easyArray := [2][4]int{{1, 2, 3, 4}, {5, 6, 7, 8}}
 
 ### Slices
 
+In many situations, the array type is not a good choice - e.g. we don't know the length of the array.
+
+`slice` is not really a `dynamic array`. It's a reference type. `slice` points to an underlying `array` whose declaration is similar to `array`, but doesn't need length.
+
+```golang
+var slice []int // exclude length declaration
+slice := []byte{'a','b','c'}
+```
+
+```golang
+// define an array
+var array = [10]byte{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'}
+// define two slices
+var aSlice, bSlice []byte
+
+// some convenient operations
+aSlice = array[:3] // equals to aSlice = array[0:3] aSlice has elements a,b,c
+aSlice = array[5:] // equals to aSlice = array[5:10] aSlice has elements f,g,h,i,j
+aSlice = array[:]  // equals to aSlice = array[0:10] aSlice has all elements
+
+// slice from slice
+aSlice = array[3:7]  // aSlice has elements d,e,f,g，len=4，cap=7
+bSlice = aSlice[1:3] // bSlice contains aSlice[1], aSlice[2], so it has elements e,f
+bSlice = aSlice[:3]  // bSlice contains aSlice[0], aSlice[1], aSlice[2], so it has d,e,f
+bSlice = aSlice[0:5] // slice could be expanded in range of cap, now bSlice contains d,e,f,g,h
+bSlice = aSlice[:]   // bSlice has same elements as aSlice does, which are d,e,f,g
+```
+
+Any changes to slice will affect other variables pointing to the same slice or array. For instance, if you change the value of an element in `aSlice`, `bSlice` will be changed as well.
+
+`slice` is like a struct by definition with 3 parts:
+
+1. Pointer that points to where `slice` starts
+2. Length of `slice`
+3. Capacity, the length from start index to index of `slice`
+
+![picture](https://astaxie.gitbooks.io/build-web-application-with-golang/en/images/2.2.slice2.png?raw=true)
+
 ### Maps
+
+```golang
+var numbers map[string]int
+
+numbers := make(map[string]int)
+numbers["one"] = 1
+numbers["two"] = 2
+
+or
+
+numbers := map[string]int {
+  "one": 1,
+  "two": 2,
+}
+```
+
+- Map is not ordered. Everytime you print `map` you will get different results. It's impossible to get values by `index` - you have to use `key`
+- Map doesn't have a fixed length. It's a reference type just like `slice`. If two maps point to same underlying data, any change will affect both
+
+### Make, new
+
+`make` does memory allocation for built-in models, such as `map`, `slice`, and `channel`, while `new` is for types' memory allocation.
+
+`new(T)` allocates zero-value to type T's memory, returns its memory address, which is the value of type `*T`. By Go's definition, it returns a pointer which points to type T's zero-value.
+
+The built-in function `make(T, args)` has different purposes than `new(T)`. make can be used for slice, map, and channel, and returns a type T with an initial value. The reason for doing this is because the underlying data of these three types must be initialized before they point to them. For example, a slice contains a pointer that points to the underlying array, length and capacity. Before these data are initialized, slice is nil, so for slice, map and channel, make initializes their underlying data and assigns some suitable values.
