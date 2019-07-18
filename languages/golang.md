@@ -80,3 +80,151 @@ The way to think about packages in Go is `modularity` (break up program into man
 Each go file is in some package, and that package should be a distinct folder in the GOPATH, but main is a special package which doesn't require a `main` folder. 
 
 Conclusion: Go uses `package` (like modules in Python) to organize programs. The function `main.main()` is the entry point of any program. Go standardizes language and most of the programming methodology (gofmt).
+
+## Naming Convention
+
+- Any variable that beings with a capital letter means it will be exported, private otherwise.
+- The same rule applies for functions and constants, no `public` or `private` keyword exists in Go.
+
+## Foundation
+
+### Define variables
+
+The keyword `var` is the basic form to define variables, notice that Go puts the variable type `after` the name.
+
+```golang
+var variableName type
+var var1, var2, var3 type
+var myName string = "Obed"
+var sibling1, sibling2 string = "Abel", "Olivia"
+var sibling1, sibling2 = "Abel", "Olivia"
+```
+
+We can also use `:=` to replace `var` and `type` combination, this is called a `short assignment`. It has one limitation: it can only be used inside of a function. You will get compile error when it is called outside of function block. Therefore, `var` is used to define global variables
+
+```golang
+myName := "Obed"
+```
+
+`_` (blank) is a special variable name. Any value that is given to it will be ignored
+
+```golang
+_, b := 34, 35
+```
+
+### Constants
+
+Values that are determined during compile time and cannot be changed during runtime. In Go, you can use number, boolean, enum, or string as constant types
+
+```golang
+const str = "a string"
+const str string = "a string"
+
+const bool = true
+const num = 1000
+const pi = 3.14
+```
+
+### Numerical types
+
+```
+rune   int8   int16   int32   int64
+byte   uint8  uint16  uint32  uint64
+float32  float64
+```
+
+`rune` is alias of `int32` and `byte` is alias of `uint8`.
+
+You cannot assign values with two different numerical types
+
+```golang
+var a int8
+var b int32
+
+c := a + b // compile error
+```
+
+### Strings
+
+Represented by double quotes `""` or backticks `` ` ``.
+
+It is impossible to change string values by index. You will get compile errors
+
+```golang
+var s string = "hello"
+s[0] = 'c' // compile error
+
+chars := []byte(s)
+chars[0] = 'c'
+s2 := string(chars) // no compile error
+```
+
+Multiple-line strings can be handled by backticks.
+
+### Errors
+
+Go has one `error` type. There is also a package called `errors` to handle errors.
+
+```golang
+err := errors.New("error message")
+if err != nil {
+  fmt.Println(err)
+}
+```
+
+### Underlying data structure
+
+Go utilizes blocks of memory to store data.
+
+![picture](https://astaxie.gitbooks.io/build-web-application-with-golang/en/images/2.2.basic.png?raw=true)
+
+### Pro-tip
+
+#### Define by group
+
+If you want to define multiple constants, variables, or imports you can use the group form
+
+```golang
+import(
+    "fmt"
+    "os"
+)
+
+const(
+    i = 100
+    pi = 3.1415
+    prefix = "Go_"
+)
+
+var(
+    i int
+    pi float32
+    prefix string
+)
+```
+
+#### iota enumerate
+
+`iota` is used to make `enum`, it begins with `0` and increases by `1`
+
+```golang
+const(
+    x = iota  // x == 0
+    y = iota  // y == 1
+    z = iota  // z == 2
+    w  // If there is no expression after the constants name, it uses the last expression,
+    //so it's saying w = iota implicitly. Therefore w == 3, and y and z both can omit "= iota" as well.
+)
+
+const v = iota // once iota meets keyword `const`, it resets to `0`, so v = 0.
+
+const (
+  e, f, g = iota, iota, iota // e=0,f=0,g=0 values of iota are same in one line.
+)
+```
+
+### Arrays
+
+### Slices
+
+### Maps
