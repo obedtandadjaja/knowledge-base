@@ -225,6 +225,25 @@ const (
 
 ### Arrays
 
+```golang
+var arr [n]type
+
+a := [3]int{1,2,3}
+b := [10]int{1,2,3}
+c := [...]int{1,2,3}
+```
+
+`n` is the length of the array, `type` is the type of its elements. Like other languages, we use `[]` to get or set element values within arrays.
+
+Because length is part of the array type, `[3]int` and `[4]int` are different types, so we cannot change the length of arrays. When you use arrays as arguments, functions get their copies instead of references! If you want to use references, use `slice` instead.
+
+Two-dimensional
+
+```golang
+doubleArray := [2][4]int{[4]int{1, 2, 3, 4}, [4]int{5, 6, 7, 8}}
+easyArray := [2][4]int{{1, 2, 3, 4}, {5, 6, 7, 8}}
+```
+
 ### Slices
 
 ### Maps
