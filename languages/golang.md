@@ -461,3 +461,49 @@ func init() {
     }
 }
 ```
+
+## Struct
+
+```golang
+type person struct {
+    name string
+    age int
+}
+
+var P person  // p is person type
+
+P.name = "Astaxie" 
+P.age = 25
+fmt.Printf("The person's name is %s\n", P.name)
+
+// other ways to initialize
+P := person{"Tom", 25} // by order
+P := person{age:24, name:"Bob"} // by attributes
+P := struct{name string; age int}{"Amy",18} // by anonymous struct
+```
+
+### Embedded fields in struct
+
+```golang
+type Human struct {
+    name   string
+    age    int
+    weight int
+}
+
+type Student struct {
+    Human     // embedded field, it means Student struct includes all fields that Human has.
+    specialty string
+}
+
+func main() {
+    // instantiate and initialize a student
+    mark := Student{Human{"Mark", 25, 120}, "Computer Science"}
+    
+    // access fields
+    fmt.Println("His name is ", mark.name)
+    fmt.Println("His age is ", mark.age)
+    fmt.Println("His weight is ", mark.weight)
+    fmt.Println("His specialty is ", mark.specialty)
+}
+```
