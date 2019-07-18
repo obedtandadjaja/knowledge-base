@@ -563,3 +563,53 @@ func main() {
     sam.SayHi()
 }
 ```
+
+## Interface
+
+```golang
+type Men interface {
+    SayHi()
+    Sing(lyrics string)
+    BorrowMoney(amount float32)
+}
+```
+
+A type matches an interface when it fulfills all the required methods in the interface.
+
+### Empty interface
+
+If a function uses an empty interface as its argument type, it can accept any type; if a function uses empty interface as its return value type, it can return any type.
+
+```golang
+var empty interface{}
+
+empty = 5
+empty = "hello"
+```
+
+### Interface check
+
+```golang
+value, ok := element.(Interface)
+```
+
+### Embedded interfaces
+
+```golang
+type Interface interface {
+    sort.Interface // embedded sort.Interface
+    Push(x interface{}) //a Push method to push elements into the heap
+    Pop() interface{} //a Pop method that pops elements from the heap
+}
+
+// sort.Interface
+type Interface interface {
+    // Len is the number of elements in the collection.
+    Len() int
+    // Less returns whether the element with index i should sort
+    // before the element with index j.
+    Less(i, j int) bool
+    // Swap swaps the elements with indexes i and j.
+    Swap(i, j int)
+}
+```
