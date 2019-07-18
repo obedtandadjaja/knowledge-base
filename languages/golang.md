@@ -311,3 +311,153 @@ numbers := map[string]int {
 `new(T)` allocates zero-value to type T's memory, returns its memory address, which is the value of type `*T`. By Go's definition, it returns a pointer which points to type T's zero-value.
 
 The built-in function `make(T, args)` has different purposes than `new(T)`. make can be used for slice, map, and channel, and returns a type T with an initial value. The reason for doing this is because the underlying data of these three types must be initialized before they point to them. For example, a slice contains a pointer that points to the underlying array, length and capacity. Before these data are initialized, slice is nil, so for slice, map and channel, make initializes their underlying data and assigns some suitable values.
+
+## Control Statements
+
+### if
+
+```golang
+if x := computedValue; x > 10 {
+    fmt.Println("x is greater than 10")
+} else if x > 20 {
+    fmt.Println("x is greater than 20")
+} else {
+    fmt.Println("x is less than 10")
+}
+```
+
+### goto
+
+Reroutes the control flow to a previously defined lable within the body of same code block
+
+```golang
+func myFunc() {
+    i := 0
+Here:   // label ends with ":"
+    fmt.Println(i)
+    i++
+    goto Here   // jump to label "Here"
+}
+```
+
+### for
+
+```golang
+for index := 10; index>0; index-- {
+    fmt.Println(index)
+}
+
+for k,v := range map {
+    fmt.Println("map's key:",k)
+    fmt.Println("map's val:",v)
+}
+```
+
+### switch
+
+```golang
+switch expr {
+case expr1:
+    // some instructions
+case expr2:
+    // some other instructions
+    fallthrough
+default:
+    // other code
+}
+```
+
+use `fallthrough` to match more cases.
+
+### func
+
+```golang
+func SumAndProduct(A, B int) (int, int) {
+    return A + B, A * B
+}
+
+// variadic functions
+func myfunc(arg ...int) {}
+
+// pass memory address
+func add1(a *int) int {
+    *a = *a + 1 // we changed value of a
+    return *a   // return new value of a
+}
+```
+
+### defer
+
+You can have many `defer` statements in one function; they will execute in reverse order when the program executes to the end of functions. In the case where the program opens some resource files, these files would have to be closed before the function can return with errors
+
+```golang
+for i := 0; i < 5; i++ {
+    defer fmt.Printf("%d ", i)
+}
+
+// prints 4 3 2 1 0
+```
+
+## Functions
+
+### Functions as values and types
+
+Functions are also variables in Go, we can use `type` to define them. Functions that have the same signature can be seen as the same type
+
+```golang
+// format
+type typeName func(input1 inputType1 , input2 inputType2 [, ...]) (result1 resultType1 [, ...])
+
+// example
+type testInt func(int) bool // define a function type of variable
+
+func isOdd(integer int) bool {
+    return integer%2 != 0
+}
+
+func isEven(integer int) bool {
+    return integer%2 == 0
+}
+
+// pass the function `f` as an argument to another function
+func filter(slice []int, f testInt) []int {
+    var result []int
+    for _, value := range slice {
+        if f(value) {
+            result = append(result, value)
+        }
+    }
+    return result
+}
+
+var slice = []int{1, 2, 3, 4, 5, 7}
+
+func main() {
+  odd := filter(slice, isOdd)
+  even := filter(slice, isEven)
+}
+```
+
+### Panic and Recover
+
+Go doesn't have `try-catch` structure like Java does. Instead of throwing exceptions, Go uses `panic` and `recover` to deal with errors.
+
+`Panic` is a built-in function to break the normal flow of programs and get into panic status. When a function calls `panic`, the function will not continue executing but its `defer` functions will continue to execute. The function goes back to the break point which caused the panic status. The program will not terminate until all of these functions return with panic to the first level of that `goroutine`. `panic` can be produced by calling `panic` in the program.
+
+`Recover` is a built-in function to recover `goroutine`'s from panic status. Calling `recover` in `defer` functions is useful because normal functions will not be executed when the program is in the panic status. It catches `panic` values if the program is in the panic status, and it gets `nil` if the program is not in panic status.
+
+```golang
+var user = os.Getenv("USER")
+
+func init() {
+    defer func() {
+        if x := recover(); x != nil {
+            fmt.Println("Cannot get user env")
+        }
+    }()
+
+    if user == "" {
+        panic("no value for $USER")
+    }
+}
+```
