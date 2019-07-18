@@ -613,3 +613,174 @@ type Interface interface {
     Swap(i, j int)
 }
 ```
+
+## Concurrency
+
+### goroutine
+
+Goroutines and concurrency are built into the core design of Go. They're similar to threads but work differently. 
+
+- Full support to sharing memory among goroutines
+- Typically around 4-5 KB of stack memory compared to 1 MB of threads. Easy to run thousands of goroutines on a single computer
+- More lightweight, more efficient and more convenient than system threads
+
+Goroutines run on the thread manager at runtime in Go. We use the `go` keyword to create new goroutine
+
+```golang
+func say(s string) {
+    for i := 0; i < 5; i++ {
+        runtime.Gosched()
+        fmt.Println(s)
+    }
+}
+
+func main() {
+    go say("world") // create a new goroutine
+    say("hello")    // current goroutine
+}
+
+// result
+    hello
+    world
+    hello
+    world
+    hello
+    world
+    ...
+```
+
+The two goroutines share some memory, but we would be better off following the design recipe: Don't use shared data to communicate, use communication to share data.
+
+In Go 1.5,the runtime now sets the default number of threads to run simultaneously, defined by GOMAXPROCS, to the number of cores available on the CPU
+
+Before Go 1.5,The scheduler only uses one thread to run all goroutines, which means it only implements concurrency. If you want to use more CPU cores in order to take advantage of parallel processing, you have to call runtime.GOMAXPROCS(n) to set the number of cores you want to use. If n<1, it changes nothing
+
+### channels
+
+goroutines run in the same memory address space, so you have to maintain synchronization when you want to access shared memory. Use `channel` to communicate between goroutines. 
+
+It is like two-way pipeline in Unix shells: use `channel` to send or receive data. They only data type that can be used in channels is the type `channel` and the keyword `chan`. Be aware that you have to use `make` to create a new `channel`
+
+```golang
+ci := make(chan int)
+cs := make(chan string)
+cf := make(chan interface{})
+```
+
+channel uses the operator `<-` to send or receive data
+
+```golang
+ch <- v     // send v to channel ch
+v := <- ch  // receive data from ch, and assign to v
+```
+
+```golang
+func sum(a []int, c chan int) {
+    total := 0
+    for _, v := range a {
+        total += v
+    }
+    c <- total // send total to c
+}
+
+func main() {
+    a := []int{7, 2, 8, -9, 4, 0}
+
+    c := make(chan int)
+    go sum(a[:len(a)/2], c)
+    go sum(a[len(a)/2:], c)
+    x, y := <-c, <-c // receive from c
+
+    fmt.Println(x, y, x+y)
+}
+```
+
+Sending and receiving data in channels blocks operation by default, so it's much easier to use synchronous goroutines. It will not continue when still receiving data from an empty channel until other goroutines send data to this channel. On the other hand, the goroutine will not continue until the data it sends to a channel is received.
+
+### Buffered channels
+
+Go also has buffered channels that can store more than a single element. For example, `ch := make(chan bool, 4)`, here we create a channel that can store 4 boolean elements. So in this channel, we are able to send 4 elements into it without blocking, but the goroutine will be blocked when you try to send a fifth element and no goroutine receives it.
+
+### Range and Close
+
+```golang
+func fibonacci(n int, c chan int) {
+    x, y := 1, 1
+    for i := 0; i < n; i++ {
+        c <- x
+        x, y = y, x+y
+    }
+    close(c)
+}
+
+func main() {
+    c := make(chan int, 10)
+    go fibonacci(cap(c), c)
+    for i := range c {
+        fmt.Println(i)
+    }
+}
+```
+
+`for i := range c` will not stop reading data from channel until the channel is closed. We use the keyword `close` to close the channel in above example
+
+Remember to always close channels in producers and not in consumers, or it's very easy to get into panic status.
+
+Another thing you need to remember is that channels are not like files. You don't have to close them frequently unless you are sure the channel is completely useless, or you want to exit range loops.
+
+### Select
+
+In the above examples, we only use on channel, but how can we deal with more than one channel? Go has a keyword called `select` to listen to many channels.
+
+`select` is blocking by default and it continues to execute only when one of channels has data to send or receive. If several channels are ready to use at the same time, select chooses which to execute randomly
+
+```golang
+func fibonacci(c, quit chan int) {
+    x, y := 1, 1
+    for {
+        select {
+        case c <- x:
+            x, y = y, x+y
+        case <-quit:
+            fmt.Println("quit")
+            return
+        }
+    }
+}
+
+func main() {
+    c := make(chan int)
+    quit := make(chan int)
+    go func() {
+        for i := 0; i < 10; i++ {
+            fmt.Println(<-c)
+        }
+        quit <- 0
+    }()
+    fibonacci(c, quit)
+}
+```
+
+### Timeout
+
+Sometimes a goroutine becomes blocked. How can we avoid this to prevent the whole program from blocking? We can set a timeout in the select
+
+```golang
+func main() {
+    c := make(chan int)
+    o := make(chan bool)
+    go func() {
+        for {
+            select {
+            case v := <-c:
+                println(v)
+            case <-time.After(5 * time.Second):
+                println("timeout")
+                o <- true
+                break
+            }
+        }
+    }()
+    <-o
+}
+```
