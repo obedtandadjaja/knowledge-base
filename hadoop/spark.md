@@ -88,3 +88,20 @@ RDD transformations returns pointer to new RDD and allows you to create dependen
 - `coalesce(numPartitions)` - decrease the number of partitions in the RDD to numPartitions
 - `repartition(numPartitions)` - reshuffle the data in RDD randomly to create either more or fewer partitions and balance it across them
 - `repartitionAndSortWithinPartitions(partitioner)` - reparition the RDD according to the given partitioner and, within each resulting partition, sort records by their keys
+
+## Actions
+
+Actions return values, RDD transformations return a new RDD
+
+- `reduce(func)`
+- `collect()` - returns all the elements of the dataset as an array at the driver program
+- `count()`
+- `first()`
+- `take(n)`
+- `takeSample(withReplacement, num, [seed])`
+- `takeOrdered(n, [ordering])`
+- `saveAsTextFile(path)` - writes the elements as a text file in a given directory. Spark calls toString on each element
+- `saveAsSequenceFile(path)` - writes the elements of dataset as Hadoop SequenceFile
+- `saveAsObjectFile(path)` - writes the elements of dataset in a simple format using Java serialization, which can then be loaded using `SparkContext.objectFile()`
+- `countByKey()`
+- `foreach(func)`
