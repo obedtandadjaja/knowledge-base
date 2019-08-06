@@ -49,7 +49,42 @@ RDD is:
 1. Parellelizing an existing collection in driver program
 2. Referencing a dataset in external storage system
 
-Spark uses RDD to achieve faster and efficient MapReduce operations
+Spark uses RDD to achieve faster and efficient MapReduce operations. If memory ran out, then it will store results on disk
 
 ### Why MapReduce is slow
 
+MapReduce is used to process large datasets in parallel, distributed algorithm on a cluster. It allows user to not worry about work distribution and fault tolerance.
+
+The only way to reuse data between computations (2 MapReduce jobs) is to write it to disk instead of keeping it in memory to be used in the next job. Data sharing is slow in MapReduce due to `replication, serialization, and Disk IO`. Most Hadoop applications spend more than 90% of the time doing HDFS read-write operations.
+
+## Spark Shell
+
+Spark provides a shell available in Scala and Python.
+
+```
+$ spark-shell
+```
+
+## RDD Transformations
+
+RDD transformations returns pointer to new RDD and allows you to create dependencies between RDDs. Each dependency chain has a function for calculating its data and a pointer to its parent RDD. Spark will not execute unless you call some transformation or action that will trigger job creation and execution.
+
+- `map(func)`
+- `filter(func)` - returns a new dataset by selecting elements on which func returns true
+- `flatMap(func)`
+- `mapPartitions(func)` - similar to map, but runs separately on each partition of the RDD, so func must be of type Iterator
+- `mapPartitionsWithIndex(func)` - similar to mapPartitions but also provides func with an integer value representing the index of the partition
+- `sample(withReplace, fraction, seed)` - sample a fraction of data
+- `union(otherDataset)` - returns a new dataset that is the union of datasets
+- `intersection(otherDataset)` - returns a new dataset that is the intersaction of datasets
+- `distinct([numTasks])`
+- `groupKey([numTasks])` - when called on a dataset of (K, V) pairs, returns a dataset of (K, Iterable<V>) pairs. Note: If you are doing aggregation over each key, using reduceByKey or aggregateByKey will yield much better performance
+- `reduceByKey(func, [numTasks])` - reduced by func
+- `aggregateByKey(zeroValue)(seqOp, comOp, [numTasks])` - when called on a dataset of (K, V) pairs, returns a dataset of (K, U) pairs where the values for each key are aggregated using the given combine functions and a neutral "zero"value
+- `sortByKey([ascending], [numTasks])`
+- `join(otherDataset, [numTasks])` - when called on a dataset of type (K, V) and (K, W) returns a dataset of (K, (V, W)) pairs. Other joins are supported through `leftOuterJoin, rightOuterJoin, and fullOuterJoin`
+- `cartesian(otherDataset)` - when called on datasets of types T and U, returns a dataset of (T, U) pairs
+- `pipe(command, [envVars])` - pipe each partition of the RDD through a shell command
+- `coalesce(numPartitions)` - decrease the number of partitions in the RDD to numPartitions
+- `repartition(numPartitions)` - reshuffle the data in RDD randomly to create either more or fewer partitions and balance it across them
+- `repartitionAndSortWithinPartitions(partitioner)` - reparition the RDD according to the given partitioner and, within each resulting partition, sort records by their keys
