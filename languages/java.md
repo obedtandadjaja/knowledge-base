@@ -84,7 +84,7 @@ public static void main(String[] args) {
 
 Make lambdas shorter if method called does not have any parameters
 
-```
+```java
 Map::getKeys, Map::size, etc.
 ```
 
@@ -96,7 +96,7 @@ Used internal iteration instead of external iteration like while or for loop.
 
 Instead of doing all the operations for an iteration all at once, it will do the operation as a whole one at a time.
 
-```
+```java
 books.stream()
   .map(Book::decompress)
   .filter(book -> book.getAuthor().startsWith("J"))
@@ -114,4 +114,15 @@ books.parallelStream()
 
 If running on small data set it is sometimes faster to do it in one stream. Parallel executions are possible with functional programming because we are doing one task for the entire data set before moving on to the next task.
 
+## Modularity
 
+In Java we can create modules to decouple subsets of the system to different repositories. Every module has a `module-info.java` file which tells what dependencies the module need and what classes it exposes to public.
+
+```java
+module HelloWorld {
+  requires java.util;
+  exports helloworld; // name of the module
+}
+```
+
+Structure: Application -> Module -> Package -> Class
