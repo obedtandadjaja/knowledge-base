@@ -2,6 +2,8 @@
 
 ## Inheritance
 
+Java only allows us to extend 1 class, but there is no limit on how many classes you can implement.
+
 We can pass child classes to methods requiring parent classes since child classes are forced to implement parent class methods.
 
 ```java
@@ -126,3 +128,81 @@ module HelloWorld {
 ```
 
 Structure: Application -> Module -> Package -> Class
+
+## Threads
+
+When to use threads?
+1. Blocking I/O - need other threads to run in the background
+2. Independent tasks
+
+2 ways of using threads in java
+
+1. Use class that extends Thread class
+
+```java
+public ThreadExample extends Thread {
+  @Override
+  public void run() {
+    int i = 1;
+    while (i <= 100) {
+      System.out.println(i + " " + this.getName());
+      i++;
+    }
+  }
+}
+
+public static void main(String[] args) {
+  ThreadExample thread1 = new ThreadExample();
+  thread1.setName("thread1");
+  System.out.println(thread1.isAlive()); // returns false
+  
+  thread1.start();
+  System.out.println(thread1.isAlive()); // returns true
+}
+```
+
+2. With Runnable interface - benefit is you can extend other classes at the same time
+
+```java
+public RunnableExample extends Runnable {
+  @Override
+  public void run() {
+    int i = 1;
+    while (i <= 100) {
+      System.out.println(i + " " + Thread.currentThread.getName());
+      i++;
+    }
+  }
+}
+
+public static void main(String[] args) {
+  Thread thread1 = new Thread(new RunnableExample());
+  thread1.setName("thread1");
+  thread1.start();
+  
+  // Runnable is a functional interface
+  Thread thread2 = new Thread(new Runnable() {
+    @Override
+    public void run() {
+      int i = 1;
+      while (i <= 100) {
+        System.out.println(i + " " + Thread.currentThread.getName());
+        i++;
+      }
+    }
+  });
+  thread2.setName("thread2");
+  thread2.start();
+  
+  // Shorten further with lambda
+  Thread thread3 = new Thread(() -> {
+    int i = 1;
+    while (i <= 100) {
+      System.out.println(i + " " + Thread.currentThread.getName());
+      i++;
+    }
+  });
+  thread3.setName("thread3");
+  thread3.start();
+}
+```
