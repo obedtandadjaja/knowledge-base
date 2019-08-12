@@ -206,3 +206,41 @@ public static void main(String[] args) {
   thread3.start();
 }
 ```
+
+## Synchronized Method
+
+Only one thread can enter the method at a time
+
+```java
+static synchronized void withdraw(BankAccount account, int amount) {
+  // implementation
+}
+```
+
+## Synchronized Block
+
+Takes a monitor object (whatever you put as the argument to the synchronized block), and restricts any other thread to access the monitor object.
+
+```java
+new Thread(() -> {
+  synchronized(obj) {
+    synchronized(obj2) {
+      // do something
+    }
+  }
+});
+```
+
+## Try With Resources
+
+Auto close closeable resources
+
+```java
+try(
+  BufferedReader reader = new BufferedReader(new StringReader("Hello World"));
+  StringWriter writer = new StringWriter();
+) {
+  writer.write(reader.readLine());
+} catch (IOException ioe) {
+}
+```
