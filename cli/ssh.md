@@ -46,3 +46,24 @@ ssh -C -D 1080 <host>
 
 `-D` option specifies dynamic port forwarding. `1080` is the standard SOCKS port but you can use other port numbers. `-C` enables compression, which speeds up the tunnel when proxying text-based information, but can slow down when proxying binary information.
 
+### Forwarding GUI Programs
+
+SSH can also forward graphical applications over a network. Although it can take some work and extra software to forward programs to Windows or Mac OSX.
+
+#### Single applications
+
+Note that to do this for Mac OSX, you will need to install and start the X11 server before using ssh.
+
+```
+ssh -X <host>
+```
+
+`-X` option specifies forwarding X11 connections.
+
+Once connection is made, type the name of your GUI program on SSH cli:
+
+```
+firefox &
+```
+
+Your program should start as normal, although you might find it's a little slower than it would be. The trailing `&` means that the program should run in the background mode, so you can start typing new commands straight away.
