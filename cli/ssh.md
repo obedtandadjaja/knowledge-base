@@ -34,7 +34,7 @@ ssh -R 5900:localhost:5900 guest@remote-pc
 
 `-R` indicates remote port forwarding.
 
-For the duration of the SSH session, gues would be able to access your `5900` port from his computer.
+For the duration of the SSH session, guest would be able to access your `5900` port from his computer.
 
 ### Dynamic port forwarding
 
