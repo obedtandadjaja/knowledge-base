@@ -26,7 +26,7 @@ ssh -L 5900:localhost:5901 <host>
 
 ### Remote port forwarding
 
-Lets you connect from the remote SSH server to another server. To use remote forwarding, you need to know your destination server, and two port numbers.
+Lets you connect from the remote SSH server to your local computer (or another server).
 
 ```
 ssh -R 5900:localhost:5900 guest@remote-pc
