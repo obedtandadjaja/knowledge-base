@@ -6,7 +6,7 @@ There are two ways to create an SSH tunnel, local and remote port forwarding.
 
 ### Local port forwarding
 
-Use case: You are on a private network which doesn't allow connections to a specific server. To get around this we can create a tunnel through a server which isn't on our network and thus can access that server.
+Lets you connect from your local computer to another server. 
 
 ```
 ssh -L 9000:server-host-name:80 <host>
@@ -15,4 +15,34 @@ ssh -L 9000:server-host-name:80 <host>
 `-L` indicates local forwarding.
 
 In here we say that we are forwarding our local port `9000` to `server-host-name:80`. The `<host>` should be replaced with the name of your computer.
+
+Note that port numbers less than `1024` or greater than `49151` are reserved for the system.
+
+The destination server can even be the same as the SSH server:
+
+```
+ssh -L 5900:localhost:5901 <host>
+```
+
+### Remote port forwarding
+
+Lets you connect from the remote SSH server to another server. To use remote forwarding, you need to know your destination server, and two port numbers.
+
+```
+ssh -R 5900:localhost:5900 guest@remote-pc
+```
+
+`-R` indicates remote port forwarding.
+
+For the duration of the SSH session, gues would be able to access your `5900` port from his computer.
+
+### Dynamic port forwarding
+
+Turns your SSH client into a SOCKS proxy server. SOCKS is a little-known but widely-implemented protocol for programs to request any Internet connection through a proxy server.
+
+```
+ssh -C -D 1080 <host>
+```
+
+`-D` option specifies dynamic port forwarding. `1080` is the standard SOCKS port but you can use other port numbers. `-C` enables compression, which speeds up the tunnel when proxying text-based information, but can slow down when proxying binary information.
 
