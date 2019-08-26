@@ -308,7 +308,7 @@ try {
         
         // wait a while for tasks to respond to being cancelled
         if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-            System.err.println("executorService did not terminate")'
+            System.err.println("executorService did not terminate");
         }
     } 
 } catch (InterruptedException e) {
@@ -318,4 +318,37 @@ try {
     // preserve interrupt status
     Thread.currentThread().interrupt();
 }
+```
+
+## Future interface
+
+Future allows us to get the result of task execution at a later time.
+
+Blocking method get():
+
+```
+Future<String> future = executorService.submit(callableTask);
+String result = null;
+try {
+  result = future.get();
+} catch (InterruptedExecution | ExecutionException e) {
+  throw e;
+}
+```
+
+You can provide timeout to get:
+
+```
+// TimeoutException will be thrown
+String result = future.get(200, TimeUnit.MILLISECONDS); 
+```
+
+You can check on a status of a task using isDone() or isCancelled():
+
+```
+boolean finished = future.isDone();
+boolean cancelled = future.isCancelled();
+
+// force cancel
+boolean cancel = future.cancel(true);
 ```
