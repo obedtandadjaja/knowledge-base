@@ -244,3 +244,78 @@ try(
 } catch (IOException ioe) {
 }
 ```
+
+## ExecutorService
+
+ExecutorService is a framework provided by the JDK which simplifies the execution of tasks in async mode. It automatically provides a pool of threads and API for assigning tasks to it.
+
+Initializing:
+
+```java
+ExecutorService executor = Executors.newFixedThreadPool(10);
+```
+
+Note that ExecutorService is an interface and that there are multiple implementations of it available in java.util.concurrent package
+
+Assigning tasks. ExecutorService can execute Runnable and Callable tasks. There are a few methods to execute tasks like `submit()`, `invokeAny()`, `invokeAll()`:
+
+```java
+Runnable runnableTask = () -> {
+  try {
+    TimeUnit.MILLISECONDS.sleep(300);
+  } catch (InterruptedException e) {
+    e.printStackTrace();
+  }
+}
+
+Callable<String> callableTask = () -> {
+  TimeUnit.MILLISECONDS.sleep(300);
+  return "Task's execution";
+};
+ 
+List<Callable<String>> callableTasks = new ArrayList<>();
+callableTasks.add(callableTask);
+callableTasks.add(callableTask);
+
+// execute is void
+executorService.execute(runnableTask);
+
+// submit
+Future<String> future = executorService.submit(callableTask);
+
+// invokeAny - assigns a collection of tasks and returns the result of one successful task execution
+String result = executorService.invokeAny(callableTasks);
+
+// invokeAll - assigns a collection of tasks and returns the result of all task executions
+List<Future<String>> futures = executorService.invokeAll(callableTasks);
+```
+
+ExecutorService will not shutdown automatically when there is no task to process.
+
+```java
+// stops accepting tasks and shut down after all running threads finish
+executorService.shutdown();
+
+// tries to destroy but doesn't guarantee all running threads will finish
+executorService.shutDownNow();
+
+// combining the two is best using awaitTermination()
+executorService.shutdown();
+try {
+    // wait a while for existing tasks to terminate
+    if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+        executorService.shutdownNow(); // terminate tasks
+        
+        // wait a while for tasks to respond to being cancelled
+        if (!executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+            System.err.println("executorService did not terminate")'
+        }
+    } 
+} catch (InterruptedException e) {
+    // cancel if current thread also interrupted
+    executorService.shutdownNow();
+    
+    // preserve interrupt status
+    Thread.currentThread().interrupt();
+}
+```
