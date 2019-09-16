@@ -231,6 +231,60 @@ new Thread(() -> {
 });
 ```
 
+## Explicit Locks and Conditional Variables
+
+An explicit lock is more flexible than using the `synchronized` keyword because the lock can span a few statements in a method, or multiple methos in addition to the scopes supported by `synchronized`.
+
+To create an explicit lock you instantiate an implementation of `Lock` interface (like `ReentrantLock`). To grab the lock, you invoke the `lock()` method; to release the lock you invokce the `unlock()` method.
+
+To wait on explicit lock, you create a `conditional variable` (supports `Condition` interface) using `Lock.newCondition` method. Conditional variables provide the methods `await` to wait for the condition to be true, and `signal` and `signalAll` to notify all waiting threads that the condition has occurred.
+
+```java
+// Producer-Consumer example
+
+private Lock lock = new ReentrantLock();
+private Condition condVar = lock.newCondition();
+private final int CAPACITY = 10;
+private List<Integer> contents = new ArrayList<>(CAPACITY);
+
+
+public int consume() {
+  int consumed;
+  lock.lock();
+  try {
+    while (contents.isEmpty()) {
+      try {
+        condVar.await();
+      } catch (InterruptedException e) {
+        return -1;
+      }
+    }
+    consumed = contents.remove(contents.get(contents.size() - 1));
+    condVar.signalAll();
+  } finally {
+    lock.unlock();
+    return consumed;
+  }
+}
+
+public void produce(int val) {
+  lock.lock();
+  try {
+    while (contents.size() == CAPACITY) {
+      try {
+        condVar.await();
+      } catch (InterruptedException e) {
+        return;
+      }
+    }
+    contents.add(val);
+    condVar.signalAll();
+  } finally {
+    lock.unlock();
+  }
+}
+```
+
 ## Try With Resources
 
 Auto close closeable resources
