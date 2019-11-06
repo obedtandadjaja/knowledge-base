@@ -112,3 +112,53 @@ A component that acts as a basic internal load balancer and ambassador for pods.
 
 ## Resource
 https://www.digitalocean.com/community/tutorials/an-introduction-to-kubernetes
+
+# Practical
+
+## Create a deployment
+
+A Kubernetes deployment checks on the health of your Pod and restarts the Pod's container if it terminates. Deployments are the recommended way to manage the creation and scaling of Pods
+
+1. Use the `kubectl create` command to create a Deployment. The Pod runs a container based on the provided Docker image
+
+```
+kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
+```
+
+2. View the deployment
+
+```
+kubectl get deployments
+```
+
+Output:
+
+```
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+hello-node   1/1     1            1           1m
+```
+
+3. View the Pod
+
+```
+kubectl get pods
+```
+
+Output:
+
+```
+NAME                          READY     STATUS    RESTARTS   AGE
+hello-node-5f76cf6ccf-br9b5   1/1       Running   0          1m
+```
+
+4. View cluster events
+
+```
+kubectl get events
+```
+
+5. View the `kubectl` configuration
+
+```
+kubectl config view
+```
