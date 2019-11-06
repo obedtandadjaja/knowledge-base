@@ -162,3 +162,48 @@ kubectl get events
 ```
 kubectl config view
 ```
+
+For more information about `kubectl` commands see https://kubernetes.io/docs/user-guide/kubectl-overview/
+
+## Create a service
+
+By default, the Pod is only accessible by its internal IP address within the Kubernetes cluster. To make the hello-node Container accessible from outside the Kubernetes virtual network, you have to expose the Pod as a Kubernetes Service.
+
+1. Expose the Pod to the public internet using the `kubectl expose` command
+
+```
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+```
+
+The `--type=LoadBalancer` flag indicates that you want to expose your Service outside of the cluster
+
+2. View the service you just created
+
+```
+kubectl get services
+```
+
+Output:
+
+```
+NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.108.144.78   <pending>     8080:30369/TCP   21s
+kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          23m
+```
+
+On cloud providers that support load balancers, an external IP address would be provisioned to access the service. On Minikube, the `LoadBalancer` type makes the Service accessible through the `minikube service` command.
+
+3. Run the following command
+
+```
+minikube service hello-node
+```
+
+## Deleting resources
+
+You can clean up the resources you created in your cluster easily
+
+```
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+```
