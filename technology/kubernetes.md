@@ -207,3 +207,6 @@ You can clean up the resources you created in your cluster easily
 kubectl delete service hello-node
 kubectl delete deployment hello-node
 ```
+
+## Resource
+https://kubernetes.io/docs/tutorials/hello-minikube/
