@@ -208,5 +208,31 @@ kubectl delete service hello-node
 kubectl delete deployment hello-node
 ```
 
+## Scaling a deployment
+
+1. Check deployment
+
+```
+kubectl get deployments
+```
+
+2. Scale the replicas
+
+```
+kubectl scale deployments/<name of deployment> --replicas=4
+```
+
+3. Check that the pods are scaling
+
+```
+kubectl get pods -o wide
+```
+
+4. Verify change in deployment
+
+```
+kubectl describe deployments/<name of deployment>
+```
+
 ## Resource
 https://kubernetes.io/docs/tutorials/hello-minikube/
