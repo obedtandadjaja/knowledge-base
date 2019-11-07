@@ -234,5 +234,33 @@ kubectl get pods -o wide
 kubectl describe deployments/<name of deployment>
 ```
 
+## Performing rolling update
+
+By default, the maximum number of Pods that can be unavailable during the update and the maximum number of new Pods that can be created, is one. Both options can be configured to either numbers or percentages. In Kubernetes, updates are versioned and any Deployment update can be reverted to previous stable version.
+
+1. Verify the current image version
+
+```
+kubectl describe pods
+```
+
+2. Update the image to updated version
+
+```
+kubectl set image deployments/<name of deployment> <name of updated image>
+```
+
+3. Confirm the update
+
+```
+kubectl rollout status deployments/<name of deployment>
+```
+
+4. Rollback an update
+
+```
+kubectl rollout undo deployments/<name of deployment>
+```
+
 ## Resource
 https://kubernetes.io/docs/tutorials/hello-minikube/
