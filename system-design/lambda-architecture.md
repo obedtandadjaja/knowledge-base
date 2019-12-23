@@ -7,6 +7,8 @@ It is composed of 3 layers:
 2. Serving layer
 3. Speed layer
 
+![](https://databricks.com/wp-content/uploads/2018/12/hadoop-architecture.jpg)
+
 ## Batch layer
 
 ## Serving layer
