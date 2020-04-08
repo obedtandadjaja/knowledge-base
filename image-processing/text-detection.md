@@ -14,7 +14,11 @@ Some of the challenges to do with natural scene text detection are:
 
 ## Heuristic-based text detection
 
+We can use basic image processing techniques such as thresholding, morphological operations, and contour properties. We can apply these techniques to our assumptions on common properties of text:
 
+- Text is typically dark, so we can probably just turn the image into grayscale
+- Text typically do not have gradient so we can do some thresholding to turn the pixels to binary (black or white)
+- Text tend to be in an area together so we can apply some morphing strategies to get a rough area of where the text is
 
 ## Natural scene text detection
 
