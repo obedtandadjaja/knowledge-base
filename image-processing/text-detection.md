@@ -27,3 +27,9 @@ We can use basic image processing techniques such as thresholding, morphological
 East stands for An Efficient and Accurate Scene Text Detector (reference: https://arxiv.org/abs/1704.03155). It is a pipeline capable of predicting words and lines of text at arbitrary orientations on 720p images, and can run at 13 FPS.
 
 Most importantly, since the pipeline is end-to-end, it is possible to sidestep cmputationally expensive sub-algorithms that other text editors typically apply. For more information about the architecture design and training methods, read the reference in the previous paragraph.
+
+### Text Parsing with Tesseract
+
+Tesseract is a highly accurate deep leraning-based model for text recognition. Whereas EAST is only detecting where the text is, Tesseract is commonly used as a follow-up to parse the text in the area previously detected by EAST. Tesseract performs quite poorly if there is a significant amount of noise or the image is not properly preprocessed and cleaned before applying Tesseract. 
+
+Tesseract was first created by HP, but was picked up by Google in 2006 and is maintained by the company ever since.
