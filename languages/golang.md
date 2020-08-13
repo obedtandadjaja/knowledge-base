@@ -34,6 +34,7 @@ Disadvantages:
     + [Define variables](#define-variables)
     + [Constants](#constants)
     + [Numerical types](#numerical-types)
+    + [Pointers](#pointers)
     + [Strings](#strings)
     + [Errors](#errors)
     + [Underlying data structure](#underlying-data-structure)
@@ -197,6 +198,23 @@ var a int8
 var b int32
 
 c := a + b // compile error
+```
+
+### Pointers
+
+```
+func main() {
+	i, j := 42, 2701
+
+	p := &i         // point to i
+	fmt.Println(*p) // read i through the pointer
+	*p = 21         // set i through the pointer
+	fmt.Println(i)  // see the new value of i
+
+	p = &j         // point to j
+	*p = *p / 37   // divide j through the pointer
+	fmt.Println(*p) // see the new value of j
+}
 ```
 
 ### Strings
