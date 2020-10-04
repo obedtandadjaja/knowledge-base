@@ -87,3 +87,11 @@ Similarly, when a consumer wants to consume messages from a queue, it first invo
 ### Cassandra and Queueing
 
 Finally, Cherami stores metadata on Cassandra, which is separately deployed. Metadata contains information about a queue, all its Extents, and all the Consumer Group information such as ACK offsets per Extent per Consumer Group. We chose Cassandra not only because Cassandra is a highly available data storage system, but also because of its tunable consistency model. Such flexibility allows us to offer queues that can be either partition tolerant while not order preserving (AP queues), or order preserving (CP queues) but not available in the minor partition during such a partition event. The main difference in the handling of two types of queues is whether Extent creation requires conditional update operation.
+
+### AP Queues
+
+For AP queues, extent creation does not need Quorum-level consistency in Cassandra. When a network partition occurs, Extents can be created on both sides of the partition. Let’s call the partitions A and B. Producers in Partition A can publish into Extents in that partition, and Producers in Partition B can publish into Extents in Partition B. Therefore, writes are not blocked by network partition. For reads, Consumers in Partition A can only consume from Extents in that partition, and similar for Consumers in Partition B. However, when the network partition heals, Consumers are able to reach all Extents. The tradeoff here is that messages are eventually-consistent: it is not possible to establish a global ordering of messages because Extents can be created anytime, anywhere. In our implementation, we use Cassandra consistency level “ONE” when we write the Extent metadata.
+
+### CP Queues
+
+For CP queues, Extent creation needs to be linearizable: in the case of a network partition, we must make sure that only one partition can create an Extent to succeed the previously sealed one. To ensure this, we use Cassandra’s lightweight transaction so that if at the same time more than one Extent is created for any reason, only one can be used for a CP queue.
