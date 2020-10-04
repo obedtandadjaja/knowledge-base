@@ -77,3 +77,13 @@ We construct the key to contain the delivery time in high order bits, and sequen
 ## System Architecture
 
 ![img](https://github.com/obedtandadjaja/knowledge-base/blob/master/pictures/message-queue8.gif?raw=true)
+
+### Frontend
+
+Frontend hosts expose TChannel–Thrift APIs that perform CRUD operations of queues and consumer groups. They also expose APIs for data plane routing purposes. When a producer wants to publish messages into a queue, it invokes the routing API to discover which input hosts contain the extents of the queue. Next, the producer connects to those input hosts using WebSocket connections and publishes messages in the established streams.
+
+Similarly, when a consumer wants to consume messages from a queue, it first invokes the routing API to discover which output hosts manage the consumption of extents of the queue. Then, the producer connects to those output hosts using WebSocket connections and pulls messages. When new extents are created, Cherami sends back a notification to the producer and consumer so that they can connect to new extents. We developed client-side libraries to simplify these interactions.
+
+### Cassandra and Queueing
+
+Finally, Cherami stores metadata on Cassandra, which is separately deployed. Metadata contains information about a queue, all its Extents, and all the Consumer Group information such as ACK offsets per Extent per Consumer Group. We chose Cassandra not only because Cassandra is a highly available data storage system, but also because of its tunable consistency model. Such flexibility allows us to offer queues that can be either partition tolerant while not order preserving (AP queues), or order preserving (CP queues) but not available in the minor partition during such a partition event. The main difference in the handling of two types of queues is whether Extent creation requires conditional update operation.
