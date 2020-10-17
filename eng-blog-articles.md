@@ -15,3 +15,9 @@
 # Uber (https://eng.uber.com)
 
 - Cherami: Uber Engineering’s Durable and Scalable Task Queue in Go: https://eng.uber.com/cherami-message-queue-system/
+
+# Netflix (https://netflixtechblog.com/)
+
+- Our learnings from adopting GraphQL: https://netflixtechblog.com/our-learnings-from-adopting-graphql-f099de39ae5f
+- From Chaos to Control — Testing the resiliency of Netflix’s Content Discovery Platform: https://netflixtechblog.com/from-chaos-to-control-testing-the-resiliency-of-netflixs-content-discovery-platform-ce5566aef0a4
+- Falcor: https://netflix.github.io/falcor/
