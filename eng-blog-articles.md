@@ -11,3 +11,7 @@
 # Lyft (https://eng.lyft.com)
 
 - Matchmaking in Lyft Line — Part 2: https://eng.lyft.com/matchmaking-in-lyft-line-691a1a32a008
+
+# Uber (https://eng.uber.com)
+
+- Cherami: Uber Engineering’s Durable and Scalable Task Queue in Go: https://eng.uber.com/cherami-message-queue-system/
