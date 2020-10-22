@@ -1,5 +1,7 @@
 # Kubernetes
 
+Cheatsheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
 Kubernetes is an open source container orchestration platform, allowing large numbers of containers to work together in harmony, reducing operation burden. It helps with things like:
 
 - Running containers across many different machines (Deployment)
