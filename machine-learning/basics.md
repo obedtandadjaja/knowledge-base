@@ -57,6 +57,9 @@ Machine learning is good for:
             1. Use SMOTE (syntetic minority over-sampling technique)
             1. Read "Learning from Imbalanced Data" paper.
     1. Data splitting
+        1. Training set (usually 70-80% of data): model learns on this
+        1. Validation set (usually 10-15% of data): model hyperparameters are tuned in this
+        1. Test set (usually 10-15%): models final performance is evaluated on this
 3. Train a model
     1. Choose an algorithm (based on your problem/data)
     1. Overfit then regularize
