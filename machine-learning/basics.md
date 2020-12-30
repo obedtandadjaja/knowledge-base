@@ -133,6 +133,20 @@ Machine learning is good for:
             1. Data augmentation: manipulate your dataset in artificial ways to make it 'harder to learn'. For example, if you're dealing with images, randomly rotate, skew, flip and adjust the height of your images. This makes your model have to learn similar patterns across different styles of the same image
             1. Batch normalization: standardize inputs (zero mean and normalize) as well as adding two parameters (beta, how much to offset the parameters for each layer and epsilon to avoid division by zero) before they go into the next layer
     1. Tune hyperparameters
+        1. Setting a learning rate (often the most important hyperparameter), generally, high learning rate = algorithm rapidly adapts to new data. Low learning rate = algorithm adapts slower to new data
+            1. Finding the optimal learning rate:
+                1. Train the model for a few hundred iterations starting with a very low learning rate (e.g. 10e-6) and slowly increase it to a very large value (e.g. 1)
+                1. Plot the loss versus the learning rate (using a log scale for learning rate), you should see a U-shapped curve, the optimal learning is about 1-2 notches to the left of the bottom of the U-curve
+            1. Learning rate schedule (use Adam optimizer) involves decreasing the learning rate slowly as model learns more
+            1. Cyclic learning rate (https://arxiv.org/abs/1506.01186)
+                1. Dynamically change the learning rate up and down between some threshold and potentially speed up training
+        1. Read this useful paper: https://arxiv.org/abs/1803.09820
+        1. Other hyperparameters to tune:
+            1. Number of layers (deep learning networks)
+            1. Batch size (how many examples of data your model sees at once. If in doubt, use batch size 32
+            1. Number of trees (decision tree algorithms)
+            1. Number of iterations (how many times the model goes through the data). Note: instaed of tuning iterations, use early-stopping instead
+            1. etc. depends on the algorithn you are using. Search "[algorithm name] hyperparameter tuning"
 4. Analysis/evaluation
     1. Evaluation metrics
     1. Feature importance
