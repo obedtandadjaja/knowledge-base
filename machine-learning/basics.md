@@ -149,11 +149,31 @@ Machine learning is good for:
             1. etc. depends on the algorithn you are using. Search "[algorithm name] hyperparameter tuning"
 4. Analysis/evaluation
     1. Evaluation metrics
+        1. Classification
+            1. Accuracy
+            1. Precision
+            1. Recall
+            1. f1
+            1. Confusion matrix
+            1. Mean average precision (object detection)
+        1. Regression
+            1. MSE (mean squared error)
+            1. MAE (mean absolute error)
+            1. R^2 (r-squared)
+        1. Task-based metric
     1. Feature importance
+        1. Which features contributed most to the model? Should some be removed? Useful for model explainability
     1. Training/inference cost
+        1. How long does a model take to train? Is this feasible?
+        1. How long does inference take? Is it suitable for production?
+    1. What-if tool (https://pair-code.github.io/what-if-tool/): how does my model compare to other models? What if I changed something in the data?
+    1. Least confident examples: what does the model get wrong?
+    1. Bias/variance trade-off: high bias results in underfitting and a lack of generalization to new samples, high variance results in overfitting due to the model finding patterns in the data which is actually random noise (https://elitedatascience.com/bias-variance-tradeoff)
 5. Serve model
+    1. MLOps (https://huyenchip.com/2020/06/22/mlops.html)
 6. Retrain model
     1. Are old predictions still valid?
+    1. See how the model performs after serving based on various evaluation metrics and revisit the above steps as required
   
 ## Machine Learning Tools
 
