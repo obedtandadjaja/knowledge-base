@@ -62,6 +62,52 @@ Machine learning is good for:
         1. Test set (usually 10-15%): models final performance is evaluated on this
 3. Train a model
     1. Choose an algorithm (based on your problem/data)
+        1. Supervised algorithms
+            1. Linear Regression (https://en.wikipedia.org/wiki/Linear_regression)
+                1. Draw a line that best fits data scattered on a graph
+            1. Logistic Regression (https://en.wikipedia.org/wiki/Logistic_regression)
+                1. Predicts a binary outcome based on a series of independent variables
+                1. E.g. predict someone has heart disease based on health parameters
+            1. k-Nearest Neighbors (https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)
+                1. Find the k examples which are most similar to each other
+            1. Support Vector Machines (SVMs) (https://towardsdatascience.com/support-vector-machine-simply-explained-fee28eba5496)
+                1. Can be used for classification or regression
+                1. Find best way to separate data points using multiple planes known as Hyperplanes
+            1. Decision Trees and Random Forests (https://en.wikipedia.org/wiki/Random_forest)
+                1. Can be used for classification and regression (very valuable algorithm for structured data)
+                1. Decision trees split data based on criteria, such as "is over 50", eventually getting to a point where the data can't be split anymore
+                1. Random Forests are a combination of many decision trees, effectively leveraging and combining the choices of many models (technique known as ensembling)
+            1. AdaBoost/Gradient Boosting Machines (https://machinelearningmastery.com/gentle-introduction-gradient-boosting-algorithm-machine-learning/)
+                1. Can be used for classification or regression
+                1. Asks the question, can a series of weak learners be turned into a strong learner?
+                1. Trains a series of weak learners whos job is to improve each other (another example of ensemble method, combining multiple weaker models to create a better one)
+                    1. XGBoost (https://xgboost.readthedocs.io/en/latest/)
+                    1. CatBoost (https://catboost.ai/)
+                    1. LightGBM (https://lightgbm.readthedocs.io/en/latest/)
+            1. Neural networks (deep learning) (https://en.wikipedia.org/wiki/Artificial_neural_network)
+                1. Can be used for classification or regression
+                1. Takes a series of inputs, manipulates the inputs with linear (dot product between weights and inputs) and nonlinear functions (activation function). Do this multiple times
+                1. The use of linear and non-linear functions (straight or non-straight lines) means neural networks can use this combination to estimate almost anything
+                    1. Convolutional neural networks (typically used for computer vision) (https://poloclub.github.io/cnn-explainer/)
+                    1. Recurrent neural networks (typically used for sequence modelling) (https://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+                    1. Transformer networks (can be used for vision and text) (https://huggingface.co/transformers/)
+        1. Unsupervised algorithms
+            1. Clustering
+                1. K-Means clustering (https://en.wikipedia.org/wiki/K-means_clustering)
+                    1. Choose k number of clusters, each cluster receives a center node (centroid) at random and with each iteration the center nodes attempt to move farther away from each other
+                    1. Once the centroids stop moving, each sample is assigned a value equivalent to the closest centroid
+            1. Visualization and dimensionality reduction
+                1. Principal Component Analysis (https://en.wikipedia.org/wiki/Principal_component_analysis)
+                    1. Reduce data dimensions while attempt to preserve variance
+                1. Autoencoder (https://www.jeremyjordan.me/autoencoders/)
+                    1. Learn a lower dimensional encoding of data
+                1. t-Distributed Stochastic Neighbor Embedding (t-SNE) (https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding)
+                    1. Good for visualizing data in a 2D or 3D space
+            1. Anomaly detection
+                1. Autoencoder (https://www.jeremyjordan.me/autoencoders/)
+                1. One-class classification
+                    1. Train a model on only one-class if anything lays outside of this class, it may be an anomaly
+                    1. Algorithms: one-class K-Means, one-class SVM, isolation forest, and local outlier factor
     1. Overfit then regularize
     1. Tune hyperparameters
 4. Analysis/evaluation
