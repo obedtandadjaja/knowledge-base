@@ -121,37 +121,37 @@ Machine learning is good for:
 ## Machine Learning Tools
 
 1. Libraries/code space
-  a. Jupyter notebook
-  b. TensorFlow
-  c. PyTorch
-  d. Onnx
+    1. Jupyter notebook
+    1. TensorFlow
+    1. PyTorch
+    1. Onnx
 2. Experiment tracking
-  a. TensorBoard
-  b. neptune.ai
+    1. TensorBoard
+    1. neptune.ai
 3. Pre-trained models
-  a. Detectron2
-  b. TensorFlow
-  c. PyTorch
-  d. HuggingFace Transformers
+    1. Detectron2
+    1. TensorFlow
+    1. PyTorch
+    1. HuggingFace Transformers
 4. Data and model tracking
-  a. Artifacts (by weights & biases)
-  b. Data version control (dvc)
+    1. Artifacts (by weights & biases)
+    1. Data version control (dvc)
 5. Cloud compute services
-  a. GCP
-  b. AWS
-  c. Azure
+    1. GCP
+    1. AWS
+    1. Azure
 6. AutoML & Hyperparameter tuning
-  a. Sweeps (by weights & biases)
-  b. Google Cloud AutoML
-  c. tpot
-  d. Azure AutoML
+    1. Sweeps (by weights & biases)
+    1. Google Cloud AutoML
+    1. tpot
+    1. Azure AutoML
 7. Explainability
-  a. shap
-  b. what if...
+    1. shap
+    1. what if...
 8. ML lifecycle
-  a. kubeflow
-  b. Seldom
-  c. mlflow
+    1. kubeflow
+    1. Seldom
+    1. mlflow
 
 ## Mathematics
 
