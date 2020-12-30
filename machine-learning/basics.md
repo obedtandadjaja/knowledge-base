@@ -108,7 +108,30 @@ Machine learning is good for:
                 1. One-class classification
                     1. Train a model on only one-class if anything lays outside of this class, it may be an anomaly
                     1. Algorithms: one-class K-Means, one-class SVM, isolation forest, and local outlier factor
+    1. Type of learning
+        1. Batch learning
+            1. All of your data exists in a big static warehouse and you train a model on it
+            1. Learning may take a while and isn't done often
+        1. Online learning
+            1. Data is constantly being updated and you constantly train new models on it
+            1. Each learning step is usually fast and cheap
+            1. Runs in production and learns continuously
+        1. Transfer learning
+            1. Take the knowledge one model has learned and use it with your own. Gives you the ability to leverage state of the art models for your own problems
+                1. Helpful if you don't have much data or vast compute resources. Use resources such as TensorFlow Hub or PyTorch Hub for broad model options and HuggingFace transformers (NLP models) and Detectron2 (computer vision models) for specific models
+        1. Active learning
+            1. Also referred as "human in the loop" learning. A human expert interacts with a model and provides updates to labels for samples which the model is most uncertain about
+            1. Example: https://blogs.nvidia.com/blog/2020/01/16/what-is-active-learning/
+        1. Ensembling
     1. Overfit then regularize
+        1. Happens when your validation loss (how your model is performing on the validation dataset, lower is better) starts to increase
+        1. Or when the model performs far better on the training set than on the test set (e.g. 99% accuracy on training set, 67% accuracy on the test set)
+        1. Regularization: a collection of techniques to prevent/reduce overfitting
+            1. L1 (lasso) and L2 (ridge) regularization
+            1. Dropout: randomly remove parts of your model so the rest of it has to become better
+            1. Early stopping: stop your model from training before the validation loss starts to increase too much or more generally, any other metric has stopped improving
+            1. Data augmentation: manipulate your dataset in artificial ways to make it 'harder to learn'. For example, if you're dealing with images, randomly rotate, skew, flip and adjust the height of your images. This makes your model have to learn similar patterns across different styles of the same image
+            1. Batch normalization: standardize inputs (zero mean and normalize) as well as adding two parameters (beta, how much to offset the parameters for each layer and epsilon to avoid division by zero) before they go into the next layer
     1. Tune hyperparameters
 4. Analysis/evaluation
     1. Evaluation metrics
