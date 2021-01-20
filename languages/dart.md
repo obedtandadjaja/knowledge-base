@@ -2,7 +2,7 @@
 
 ## Hello World
 
-```
+```dart
 void main() {
   print('Hello World');
 }
@@ -12,7 +12,7 @@ void main() {
 
 Dart is type-safe, but just like Golang, you do not need to explicitly declare types, thanks to inference
 
-```
+```dart
 var name = 'Voyager I';
 var year = 1977;
 var antennaDiameter = 3.7;
@@ -25,7 +25,7 @@ var image = {
 
 ## Control flow
 
-```
+```dart
 if (year >= 2001) {
   print('21st century');
 } else if (year >= 1901) {
@@ -47,7 +47,7 @@ while (year < 2016) {
 
 ## Functions
 
-```
+```dart
 int fibonacci(int n) {
   if (n == 0 || n == 1) return n;
   return fibonacci(n - 1) + fibonacci(n - 2);
@@ -60,7 +60,7 @@ flybyObjects.where((name) => name.contains('turn')).forEach(print);
 
 ## Comments
 
-```
+```dart
 // This is a normal, one-line comment.
 
 /// This is a documentation comment, used to document libraries,
@@ -72,7 +72,7 @@ flybyObjects.where((name) => name.contains('turn')).forEach(print);
 
 ## Imports
 
-```
+```dart
 // Importing core libraries
 import 'dart:math';
 
@@ -85,7 +85,7 @@ import 'path/to/my_other_file.dart';
 
 ## Classes
 
-```
+```dart
 class Spacecraft {
   String name;
   DateTime launchDate;
@@ -126,7 +126,7 @@ voyager3.describe();
 
 Dart has single inheritance
 
-```
+```dart
 class Orbiter extends Spacecraft {
   double altitude;
   Orbiter(String name, DateTime launchDate, this.altitude)
@@ -138,7 +138,7 @@ class Orbiter extends Spacecraft {
 
 Reuse code in multiple class hierarchies
 
-```
+```dart
 class Piloted {
   int astronauts = 1;
   void describeCrew() {
@@ -155,13 +155,13 @@ class PilotedCraft extends Spacecraft with Piloted {
 
 All classes implicitly define an interface
 
-```
+```dart
 class MockSpaceship implements Spacecraft {
   // ···
 }
 ```
 
-```
+```dart
 abstract class Describable {
   void describe();
 
@@ -175,7 +175,7 @@ abstract class Describable {
 
 ## Async
 
-```
+```dart
 const oneSecond = Duration(seconds: 1);
 
 Future<void> printWithDelay(String message) async {
@@ -203,7 +203,7 @@ Stream<String> report(Spacecraft craft, Iterable<String> objects) async* {
 
 Use throw
 
-```
+```dart
 if (astronauts == 0) {
   throw StateError('No astronauts.');
 }
