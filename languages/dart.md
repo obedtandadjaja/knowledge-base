@@ -409,3 +409,17 @@ try {
   flybyObjects.clear();
 }
 ```
+
+# Flutter_bloc
+
+## BlocProvider
+
+Flutter widget which provides a bloc to its child. Child widget gets updated whenever there is any change in the bloc.
+
+## BlocBuilder
+
+Flutter widget which requires a Bloc and a builder function. Handles building a widget in response to new states.
+
+## Repository
+
+Serves as an abstraction between client code and data provider. The UI and bloc does not have to know where the data came from (e.g. local database or API call).
