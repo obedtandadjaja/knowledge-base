@@ -34,6 +34,16 @@ Request 3: Client => Server - received on 1050
 { round_trip_delay: (1000 - 2000) + (2002 - 1050) = 48, mismatch: 2000 - (48/2) - 1000 = 976 }
 ```
 
+## Marzullo's algorithm
+
+An agreement algorithm used to select sources for estimating accurate time from a number of noisy time sources. Efficient in producing an optimal value from a set of estimates with confidence intervals. Uses set intersection to determine the correct confidence interval.
+
+![image](https://upload.wikimedia.org/wikipedia/commons/5/5f/Marzullo_example-1.jpg)
+
+See below for an example with an outlier.
+
+![image](https://upload.wikimedia.org/wikipedia/en/e/ea/Marzullo_example-2.jpg)
+
 ## Network Time Protocol
 
 A distributed and scalable solution to sync time. Uses an external clock to be used as reference time server and is based on multiple time server arranged in levels. Used as an Internet protocol to synchronize the clocks of computers with some time reference.
