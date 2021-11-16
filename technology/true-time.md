@@ -24,9 +24,12 @@ Timestamps and multi-version concurrency control allows enables consistent reads
 Resource: https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf
 
 TrueTime's functions:
+
 - now() - returns an interval of time [earliest, latest].
 - after(t) - true if t has definitely passed
 - before(t) - true if t has definitely not arrived
+
+Infrastructure:
 
 - The underlying time references used by TrueTime are GPS and atomic clocks. 
   - TrueTime uses two forms of time reference because they have different failure modes. GCPS can fail from antenna and receiver failures, local radio interference, and GPS system outages. Atomic clock can fail in ways uncorrelated to GPS.
