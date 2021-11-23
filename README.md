@@ -1,3 +1,2 @@
 # knowledge-base
-My programming knowledge dictionary
-
+My programming knowledge directory
