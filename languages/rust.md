@@ -33,3 +33,34 @@ rustc hello.rs
 /// Generate library docs for the following item.
 //! Generate library docs for the enclosing item.
 ```
+
+## Formatted print
+
+```rust
+fn main() {
+    // In general, the `{}` will be automatically replaced with any
+    // arguments. These will be stringified.
+    println!("{} days", 31);
+    println!("{} days", 31i64);
+
+    println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
+
+    println!("{subject} {verb} {object}",
+             object="the lazy dog",
+             subject="the quick brown fox",
+             verb="jumps over");
+
+    // Special formatting can be specified after a `:`.
+    println!("{} of {:b} people know binary, the other half doesn't", 1, 2);
+
+    // You can pad numbers with extra zeroes. This will output "000001".
+    println!("{number:0>width$}", number=1, width=6);
+
+    #[allow(dead_code)]
+    struct Structure(i32);
+
+    // However, custom types such as this structure require more complicated
+    // handling. This will not work.
+    println!("This struct `{}` won't print...", Structure(3));
+}
+```
