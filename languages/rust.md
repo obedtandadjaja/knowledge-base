@@ -62,5 +62,14 @@ fn main() {
     // However, custom types such as this structure require more complicated
     // handling. This will not work.
     println!("This struct `{}` won't print...", Structure(3));
+    
+    // This structure cannot be printed either with `fmt::Display` or
+    // with `fmt::Debug`.
+    struct UnPrintable(i32);
+
+    // The `derive` attribute automatically creates the implementation
+    // required to make this `struct` printable with `fmt::Debug`.
+    #[derive(Debug)]
+    struct DebugPrintable(i32);
 }
 ```
