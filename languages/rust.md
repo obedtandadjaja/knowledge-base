@@ -63,6 +63,15 @@ fn main() {
     // handling. This will not work.
     println!("This struct `{}` won't print...", Structure(3));
     
+    // To use the `{}` marker, the trait `fmt::Display` must be implemented
+    // manually for the type.
+    impl fmt::Display for Structure {
+        // This trait requires `fmt` with this exact signature.
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+           write!(f, "{}", self.0)
+        }
+    }
+    
     // This structure cannot be printed either with `fmt::Display` or
     // with `fmt::Debug`.
     struct UnPrintable(i32);
