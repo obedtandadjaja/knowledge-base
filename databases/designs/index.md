@@ -26,4 +26,9 @@ Database schema ideas for some projects that I have worked on in the past. You d
 * Try to avoid STI unless the ORM that you are using has great support for it, e.g. Rails
 * Always use international standards or w3c standards for codes, e.g. language code, country code
 * All date-related columns should be saved in UTC
+* Try to find what you are looking for in Postgres first, e.g. full-text search or geospatial search. If there is something you can quickly leverage then try to use that first before investing more time to build something else (especially at a very early startup)
 
+## Books / Readings
+
+* The Data Model Resource Book, Vol. 3: Universal Patterns for Data Modeling
+* https://www.postgresql.org/docs/
