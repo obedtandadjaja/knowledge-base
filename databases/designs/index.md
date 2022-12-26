@@ -28,6 +28,18 @@ Database schema ideas for some projects that I have worked on in the past. You d
 * All date-related columns should be saved in UTC
 * Try to find what you are looking for in Postgres first, e.g. full-text search or geospatial search. If there is something you can quickly leverage then try to use that first before investing more time to build something else (especially at a very early startup)
 
+## Schema design steps
+
+1. Know the problem
+2. Know how the problem could scale. What other potential things will the business tackle in the future?
+3. Does it contain financial data? More likely than not you will need ACID properties then
+4. How big is the scale of the data and does it need immediate considerations for sharding and horizontal scaling? Decide on relational vs. nosql
+5. Model the nouns of the business to database entities
+6. Determine relationship between entities
+7. Double check on analytics and ease of data querying
+8. (Optional, but more important than most people think) Double check with product on the entity namings. Having the same lingo between product and tech will prevent a lot of confusions down the line
+9. (If applicable) Plan out migration process, views/materialized views, triggers, constraints, etc.
+
 ## Books / Readings
 
 * The Data Model Resource Book, Vol. 3: Universal Patterns for Data Modeling
