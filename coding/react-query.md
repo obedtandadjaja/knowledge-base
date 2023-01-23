@@ -1,5 +1,7 @@
 # React Query
 
+Practical react query (BEST PRACTICES): https://tkdodo.eu/blog/practical-react-query
+
 ## Our Problem - How does this help me?
 
 Right now all of my FE projects rely on Redux + Axios for handling API calls. The actual API call is handled by Axios but retained by Redux to be accessed by multiple React components. Potential issues:
