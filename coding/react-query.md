@@ -284,6 +284,8 @@ const mutation = useMutation(postTodo, {
    })
 ```
 
+See https://tkdodo.eu/blog/react-query-and-forms for how mutations can be used in forms.
+
 #### Side-effects
 
 ```
